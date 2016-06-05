@@ -1,0 +1,510 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCC831D03A4B200204126 /* AppDelegate.swift */; };
+		E74DCC861D03A4B200204126 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCC851D03A4B200204126 /* ViewController.swift */; };
+		E74DCC891D03A4B200204126 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E74DCC871D03A4B200204126 /* Main.storyboard */; };
+		E74DCC8B1D03A4B200204126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E74DCC8A1D03A4B200204126 /* Assets.xcassets */; };
+		E74DCC8E1D03A4B200204126 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E74DCC8C1D03A4B200204126 /* LaunchScreen.storyboard */; };
+		E74DCC991D03A4B200204126 /* Project_OsoRhythmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCC981D03A4B200204126 /* Project_OsoRhythmTests.swift */; };
+		E74DCCA41D03A4B200204126 /* Project_OsoRhythmUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCA31D03A4B200204126 /* Project_OsoRhythmUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E74DCC951D03A4B200204126 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E74DCC781D03A4B100204126 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E74DCC7F1D03A4B100204126;
+			remoteInfo = "Project OsoRhythm";
+		};
+		E74DCCA01D03A4B200204126 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E74DCC781D03A4B100204126 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E74DCC7F1D03A4B100204126;
+			remoteInfo = "Project OsoRhythm";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E74DCC801D03A4B100204126 /* Project OsoRhythm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project OsoRhythm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74DCC831D03A4B200204126 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E74DCC851D03A4B200204126 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E74DCC881D03A4B200204126 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E74DCC8A1D03A4B200204126 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E74DCC8D1D03A4B200204126 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E74DCC8F1D03A4B200204126 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E74DCC941D03A4B200204126 /* Project OsoRhythmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project OsoRhythmTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74DCC981D03A4B200204126 /* Project_OsoRhythmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_OsoRhythmTests.swift; sourceTree = "<group>"; };
+		E74DCC9A1D03A4B200204126 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E74DCC9F1D03A4B200204126 /* Project OsoRhythmUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project OsoRhythmUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74DCCA31D03A4B200204126 /* Project_OsoRhythmUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_OsoRhythmUITests.swift; sourceTree = "<group>"; };
+		E74DCCA51D03A4B200204126 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E74DCC7D1D03A4B100204126 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E74DCC911D03A4B200204126 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E74DCC9C1D03A4B200204126 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E74DCC771D03A4B100204126 = {
+			isa = PBXGroup;
+			children = (
+				E74DCC821D03A4B200204126 /* Project OsoRhythm */,
+				E74DCC971D03A4B200204126 /* Project OsoRhythmTests */,
+				E74DCCA21D03A4B200204126 /* Project OsoRhythmUITests */,
+				E74DCC811D03A4B100204126 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E74DCC811D03A4B100204126 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E74DCC801D03A4B100204126 /* Project OsoRhythm.app */,
+				E74DCC941D03A4B200204126 /* Project OsoRhythmTests.xctest */,
+				E74DCC9F1D03A4B200204126 /* Project OsoRhythmUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E74DCC821D03A4B200204126 /* Project OsoRhythm */ = {
+			isa = PBXGroup;
+			children = (
+				E74DCC831D03A4B200204126 /* AppDelegate.swift */,
+				E74DCC851D03A4B200204126 /* ViewController.swift */,
+				E74DCC871D03A4B200204126 /* Main.storyboard */,
+				E74DCC8A1D03A4B200204126 /* Assets.xcassets */,
+				E74DCC8C1D03A4B200204126 /* LaunchScreen.storyboard */,
+				E74DCC8F1D03A4B200204126 /* Info.plist */,
+			);
+			path = "Project OsoRhythm";
+			sourceTree = "<group>";
+		};
+		E74DCC971D03A4B200204126 /* Project OsoRhythmTests */ = {
+			isa = PBXGroup;
+			children = (
+				E74DCC981D03A4B200204126 /* Project_OsoRhythmTests.swift */,
+				E74DCC9A1D03A4B200204126 /* Info.plist */,
+			);
+			path = "Project OsoRhythmTests";
+			sourceTree = "<group>";
+		};
+		E74DCCA21D03A4B200204126 /* Project OsoRhythmUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E74DCCA31D03A4B200204126 /* Project_OsoRhythmUITests.swift */,
+				E74DCCA51D03A4B200204126 /* Info.plist */,
+			);
+			path = "Project OsoRhythmUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E74DCC7F1D03A4B100204126 /* Project OsoRhythm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E74DCCA81D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythm" */;
+			buildPhases = (
+				E74DCC7C1D03A4B100204126 /* Sources */,
+				E74DCC7D1D03A4B100204126 /* Frameworks */,
+				E74DCC7E1D03A4B100204126 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Project OsoRhythm";
+			productName = "Project OsoRhythm";
+			productReference = E74DCC801D03A4B100204126 /* Project OsoRhythm.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E74DCC931D03A4B200204126 /* Project OsoRhythmTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E74DCCAB1D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythmTests" */;
+			buildPhases = (
+				E74DCC901D03A4B200204126 /* Sources */,
+				E74DCC911D03A4B200204126 /* Frameworks */,
+				E74DCC921D03A4B200204126 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E74DCC961D03A4B200204126 /* PBXTargetDependency */,
+			);
+			name = "Project OsoRhythmTests";
+			productName = "Project OsoRhythmTests";
+			productReference = E74DCC941D03A4B200204126 /* Project OsoRhythmTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E74DCC9E1D03A4B200204126 /* Project OsoRhythmUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E74DCCAE1D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythmUITests" */;
+			buildPhases = (
+				E74DCC9B1D03A4B200204126 /* Sources */,
+				E74DCC9C1D03A4B200204126 /* Frameworks */,
+				E74DCC9D1D03A4B200204126 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E74DCCA11D03A4B200204126 /* PBXTargetDependency */,
+			);
+			name = "Project OsoRhythmUITests";
+			productName = "Project OsoRhythmUITests";
+			productReference = E74DCC9F1D03A4B200204126 /* Project OsoRhythmUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E74DCC781D03A4B100204126 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Trevor Lovell and Braeden Ayres";
+				TargetAttributes = {
+					E74DCC7F1D03A4B100204126 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = X72379ENEG;
+					};
+					E74DCC931D03A4B200204126 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = X72379ENEG;
+						TestTargetID = E74DCC7F1D03A4B100204126;
+					};
+					E74DCC9E1D03A4B200204126 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = X72379ENEG;
+						TestTargetID = E74DCC7F1D03A4B100204126;
+					};
+				};
+			};
+			buildConfigurationList = E74DCC7B1D03A4B100204126 /* Build configuration list for PBXProject "Project OsoRhythm" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E74DCC771D03A4B100204126;
+			productRefGroup = E74DCC811D03A4B100204126 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E74DCC7F1D03A4B100204126 /* Project OsoRhythm */,
+				E74DCC931D03A4B200204126 /* Project OsoRhythmTests */,
+				E74DCC9E1D03A4B200204126 /* Project OsoRhythmUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E74DCC7E1D03A4B100204126 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74DCC8E1D03A4B200204126 /* LaunchScreen.storyboard in Resources */,
+				E74DCC8B1D03A4B200204126 /* Assets.xcassets in Resources */,
+				E74DCC891D03A4B200204126 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E74DCC921D03A4B200204126 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E74DCC9D1D03A4B200204126 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E74DCC7C1D03A4B100204126 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74DCC861D03A4B200204126 /* ViewController.swift in Sources */,
+				E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E74DCC901D03A4B200204126 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74DCC991D03A4B200204126 /* Project_OsoRhythmTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E74DCC9B1D03A4B200204126 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74DCCA41D03A4B200204126 /* Project_OsoRhythmUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E74DCC961D03A4B200204126 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E74DCC7F1D03A4B100204126 /* Project OsoRhythm */;
+			targetProxy = E74DCC951D03A4B200204126 /* PBXContainerItemProxy */;
+		};
+		E74DCCA11D03A4B200204126 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E74DCC7F1D03A4B100204126 /* Project OsoRhythm */;
+			targetProxy = E74DCCA01D03A4B200204126 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E74DCC871D03A4B200204126 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E74DCC881D03A4B200204126 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E74DCC8C1D03A4B200204126 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E74DCC8D1D03A4B200204126 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E74DCCA61D03A4B200204126 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E74DCCA71D03A4B200204126 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E74DCCA91D03A4B200204126 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Project OsoRhythm/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E74DCCAA1D03A4B200204126 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Project OsoRhythm/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E74DCCAC1D03A4B200204126 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Project OsoRhythmTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythmTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Project OsoRhythm.app/Project OsoRhythm";
+			};
+			name = Debug;
+		};
+		E74DCCAD1D03A4B200204126 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Project OsoRhythmTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythmTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Project OsoRhythm.app/Project OsoRhythm";
+			};
+			name = Release;
+		};
+		E74DCCAF1D03A4B200204126 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Project OsoRhythmUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythmUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Project OsoRhythm";
+			};
+			name = Debug;
+		};
+		E74DCCB01D03A4B200204126 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Project OsoRhythmUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythmUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Project OsoRhythm";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E74DCC7B1D03A4B100204126 /* Build configuration list for PBXProject "Project OsoRhythm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74DCCA61D03A4B200204126 /* Debug */,
+				E74DCCA71D03A4B200204126 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E74DCCA81D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74DCCA91D03A4B200204126 /* Debug */,
+				E74DCCAA1D03A4B200204126 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E74DCCAB1D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythmTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74DCCAC1D03A4B200204126 /* Debug */,
+				E74DCCAD1D03A4B200204126 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E74DCCAE1D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythmUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74DCCAF1D03A4B200204126 /* Debug */,
+				E74DCCB01D03A4B200204126 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E74DCC781D03A4B100204126 /* Project object */;
+}
