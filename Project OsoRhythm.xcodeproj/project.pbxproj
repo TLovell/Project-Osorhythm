@@ -14,6 +14,9 @@
 		E74DCC8E1D03A4B200204126 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E74DCC8C1D03A4B200204126 /* LaunchScreen.storyboard */; };
 		E74DCC991D03A4B200204126 /* Project_OsoRhythmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCC981D03A4B200204126 /* Project_OsoRhythmTests.swift */; };
 		E74DCCA41D03A4B200204126 /* Project_OsoRhythmUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCA31D03A4B200204126 /* Project_OsoRhythmUITests.swift */; };
+		E74DCCB21D03A53700204126 /* SkillSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB11D03A53700204126 /* SkillSet.swift */; };
+		E74DCCB41D03A5D100204126 /* Initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB31D03A5D100204126 /* Initialize.swift */; };
+		E74DCCB61D03A70800204126 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB51D03A70800204126 /* Generation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		E74DCC9F1D03A4B200204126 /* Project OsoRhythmUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project OsoRhythmUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E74DCCA31D03A4B200204126 /* Project_OsoRhythmUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_OsoRhythmUITests.swift; sourceTree = "<group>"; };
 		E74DCCA51D03A4B200204126 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E74DCCB11D03A53700204126 /* SkillSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillSet.swift; sourceTree = "<group>"; };
+		E74DCCB31D03A5D100204126 /* Initialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialize.swift; sourceTree = "<group>"; };
+		E74DCCB51D03A70800204126 /* Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,9 @@
 			isa = PBXGroup;
 			children = (
 				E74DCC831D03A4B200204126 /* AppDelegate.swift */,
+				E74DCCB31D03A5D100204126 /* Initialize.swift */,
+				E74DCCB11D03A53700204126 /* SkillSet.swift */,
+				E74DCCB51D03A70800204126 /* Generation.swift */,
 				E74DCC851D03A4B200204126 /* ViewController.swift */,
 				E74DCC871D03A4B200204126 /* Main.storyboard */,
 				E74DCC8A1D03A4B200204126 /* Assets.xcassets */,
@@ -260,7 +269,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E74DCC861D03A4B200204126 /* ViewController.swift in Sources */,
+				E74DCCB41D03A5D100204126 /* Initialize.swift in Sources */,
+				E74DCCB21D03A53700204126 /* SkillSet.swift in Sources */,
 				E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */,
+				E74DCCB61D03A70800204126 /* Generation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +420,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythm";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -419,6 +432,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythm";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
