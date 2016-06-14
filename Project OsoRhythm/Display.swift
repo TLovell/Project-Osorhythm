@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Turns some 0's in the exercise to 2's to indicate that the "1" preceding them is "held". These held notes will be delegated as ties or dots or lower "beam counts" in later functions.
 internal func notesHeld(exercise: [[(String, Int)]]) -> [[(String, Int)]] {
     var newExercise : [[(String, Int)]] = []
     var measureIndex = 0
@@ -53,12 +54,13 @@ internal func notesHeld(exercise: [[(String, Int)]]) -> [[(String, Int)]] {
     return newExercise
 }
 
-// create function that spits out a list of beats that look like this [[([(length: Int, beam: Int, tied: Bool, dotted: Bool)], units: Int)]]
 
+// Takes the exercise and creates displayInformation, which basically lays out what the exercise is in musical notation.
 func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]] {
     
     var displayLengthsAndTies : [[([(length: Int, noteType: Int, tied: Bool)], beams: Int, units: Int)]] = []
     
+    // for every note in the exercise, this explains what its length is in Integers. If the note is extended over multiple beats, it divides the full length across the beats and attaches ties to the notes.
     var measureIndex = 0
     for measure in exercise {
         var newMeasure : [([(length: Int, noteType: Int, tied: Bool)], beams: Int, units: Int)] = []
@@ -137,6 +139,7 @@ func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams:
     
     var displayBeamsAndDots : [[([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]] = []
     
+    // This takes the lengths from above and redescribes them in terms of musical notation. AKA number of Flags (beams variable), Dots, and Ties. This does not handle notes that extend across multiple beats, although it will handle their "pieces" within singular beats.
     for measure in displayLengthsAndTies {
         var newMeasure : [([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)] = []
         for beat in measure {
@@ -144,8 +147,8 @@ func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams:
             for note in beat.0 {
                 var beamSubtrahends : [Int] = []
                 
+                // as it turns out, the behavior of beaming in musical notation behaves an awful lot like binary.
                 let reverseBinaryLength = String(note.length, radix: 2).characters.reverse()
-                
                 
                 for i in 0...(reverseBinaryLength.count - 1) {
                     if Array(reverseBinaryLength)[i] == "1" {
@@ -176,7 +179,7 @@ func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams:
                 }
                 
                 
-                
+                // the changed notes update their length variables here.
                 for i in 0...(isDotted.count - 1) {
                     let beams = beat.beams - beamSubtrahends[i]
                     var tied : Bool
@@ -186,7 +189,6 @@ func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams:
                         tied = true
                     }
                     let dotted = isDotted[i]
-                    print("(\(beat.beams) - \(beams)) * 2 * 1.5 or 1")
                     let length = Int(Double(pow(2.0, Double(beat.beams - beams))) * ((isDotted[i]) ? 1.5 : 1))
                     newBeat.0.append((length: length, beams: beams, noteType: note.noteType, tied: tied, dotted: dotted))
                 }
@@ -197,131 +199,133 @@ func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams:
         displayBeamsAndDots.append(newMeasure)
     }
     
-    
+    /* This would handle what the previous set of loops could not, redescribing notes that extend across multiple beats. This is not finished yet, and is why you didn't see things like dotted quarter notes (in duple meters) or half notes in our last meeting.
     var displayProperties : [[([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]] = []
 
-//    measureIndex = 0
-//    for measure in displayBeamsAndDots {
-//        var newMeasure : [([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]
-//        var beatIndex = 0
-//        for beat in measure {
-//            
-//            var numberOfGoodBeats = 0
-//            var beatDoesChange = true
-//            
-//            if let lastNoteBeforeBeat = displayBeamsAndDots[measureIndex][beatIndex - 1].0.last {
-//                
-//                if !(lastNoteBeforeBeat.tied) {
-//                    var beatMeetsConditions = true
-//                    while beatMeetsConditions {
-//                        let beatAtI = displayBeamsAndDots[measureIndex][beatIndex + numberOfGoodBeats]
-//                        
-//                        var sumOfLengthsInBeatAtI = 0
-//                        for note in beatAtI.0 {
-//                            sumOfLengthsInBeatAtI += note.length
-//                        }
-//                        
-//                        if beatAtI.units == beat.units && beatAtI.0[0].noteType == beat.0[0].noteType && sumOfLengthsInBeatAtI == beat.0[0].length {
-//                            if beatAtI.0.count == 1 && beatAtI.0[0].tied == true {
-//                                beatMeetsConditions = true
-//                            } else {
-//                                beatMeetsConditions = false
-//                            }
-//                            numberOfGoodBeats += 1
-//                        } else {
-//                            beatMeetsConditions = false
-//                        }
-//                    }
-//                    
-//                    var sumOfLengthsAcrossBeats = 0
-//                    for i in 0...(numberOfGoodBeats - 1) {
-//                        sumOfLengthsAcrossBeats += displayBeamsAndDots[measureIndex][beatIndex + i].0[0].length
-//                    }
-//                    
-//                    let halfBeat = Double(beat.0[0].length) / 2.0
-//                    let halfBeatBeams = 1
-//                    
-//                    var sumOfHalfBeats = Double(sumOfLengthsAcrossBeats) / halfBeat
-//                    
-//                    if sumOfHalfBeats % 1 != 0 {
-//                        sumOfHalfBeats = roundDown(sumOfHalfBeats / 2) * 2
-//                        numberOfGoodBeats -= 1
-//                    }
-//                    
-//                    let reverseBinaryOfSum = String(Int(sumOfHalfBeats), radix: 2).characters.reverse()
-//                    var newBeams : [Int] = []
-//                    
-//                    for i in 0...(reverseBinaryOfSum.count - 1) {
-//                        if Array(reverseBinaryOfSum)[i] == "1" {
-//                            newBeams.append(halfBeatBeams - i)
-//                        }
-//                    }
-//                    
-//                    newBeams = newBeams.reverse()
-//                    
-//                    var previousBeam = newBeams[0]
-//                    var isNowDotted : [Bool] = []
-//                    
-//                    for beam in newBeams {
-//                        if passiveDisplay.skillLevel >= 2.0 {
-//                            if previousBeam == (beam - 1) {
-//                                isNowDotted.removeLast()
-//                                isNowDotted.append(true)
-//                            }
-//                            isNowDotted.append(false)
-//                        }
-//                        
-//                        
-//                    }
-//                    
-//                    var i = 0
-//                    for beam in newBeams {
-//                        let oldBeat = displayBeamsAndDots[measureIndex][beatIndex + i]
-//                        var newBeat = ([(length: oldBeat.0[0].length, beams: beam, noteType: oldBeat.0[0].noteType, false, (isNowDotted[i] && !(oldBeat.0[0].dotted)) ? true : oldBeat.0[0].dotted )], units: oldBeat.units)
-//                        
-//                        var lengthInHalfBeats = 0
-//                        switch beam {
-//                        case -2:
-//                            lengthInHalfBeats = 8
-//                        case -1:
-//                            lengthInHalfBeats = 4
-//                        case 0:
-//                            lengthInHalfBeats = 2
-//                        case 1:
-//                            lengthInHalfBeats = 1
-//                        default:
-//                            break
-//                        }
-//                        
-//                        var newNote : [(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)] = []
-//                        
-//                        for i2 in 1...lengthInHalfBeats {
-//                            if i2 == 1 {
-//                                
-//                            } else if i2 % 2 == 1 {
-//                            
-//                            } else if i2 == lengthInHalfBeats {
-//                                var noteIndex = 0
-//                                for note in oldBeat.0 {
-//                                }
-//                                
-//                                
-//                            }
-//                        }
-//                        
-//                        i += 1
-//                    }
-//                    
-//                    
-//                }
-//            }
-//            beatIndex += 1
-//        }
-//        measureIndex += 1
-//    }
+    measureIndex = 0
+    for measure in displayBeamsAndDots {
+        var newMeasure : [([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]
+        var beatIndex = 0
+        for beat in measure {
+            
+            var numberOfGoodBeats = 0
+            var beatDoesChange = true
+            
+            if let lastNoteBeforeBeat = displayBeamsAndDots[measureIndex][beatIndex - 1].0.last {
+                
+                if !(lastNoteBeforeBeat.tied) {
+                    var beatMeetsConditions = true
+                    while beatMeetsConditions {
+                        let beatAtI = displayBeamsAndDots[measureIndex][beatIndex + numberOfGoodBeats]
+                        
+                        var sumOfLengthsInBeatAtI = 0
+                        for note in beatAtI.0 {
+                            sumOfLengthsInBeatAtI += note.length
+                        }
+                        
+                        if beatAtI.units == beat.units && beatAtI.0[0].noteType == beat.0[0].noteType && sumOfLengthsInBeatAtI == beat.0[0].length {
+                            if beatAtI.0.count == 1 && beatAtI.0[0].tied == true {
+                                beatMeetsConditions = true
+                            } else {
+                                beatMeetsConditions = false
+                            }
+                            numberOfGoodBeats += 1
+                        } else {
+                            beatMeetsConditions = false
+                        }
+                    }
+                    
+                    var sumOfLengthsAcrossBeats = 0
+                    for i in 0...(numberOfGoodBeats - 1) {
+                        sumOfLengthsAcrossBeats += displayBeamsAndDots[measureIndex][beatIndex + i].0[0].length
+                    }
+                    
+                    let halfBeat = Double(beat.0[0].length) / 2.0
+                    let halfBeatBeams = 1
+                    
+                    var sumOfHalfBeats = Double(sumOfLengthsAcrossBeats) / halfBeat
+                    
+                    if sumOfHalfBeats % 1 != 0 {
+                        sumOfHalfBeats = roundDown(sumOfHalfBeats / 2) * 2
+                        numberOfGoodBeats -= 1
+                    }
+                    
+                    let reverseBinaryOfSum = String(Int(sumOfHalfBeats), radix: 2).characters.reverse()
+                    var newBeams : [Int] = []
+                    
+                    for i in 0...(reverseBinaryOfSum.count - 1) {
+                        if Array(reverseBinaryOfSum)[i] == "1" {
+                            newBeams.append(halfBeatBeams - i)
+                        }
+                    }
+                    
+                    newBeams = newBeams.reverse()
+                    
+                    var previousBeam = newBeams[0]
+                    var isNowDotted : [Bool] = []
+                    
+                    for beam in newBeams {
+                        if passiveDisplay.skillLevel >= 2.0 {
+                            if previousBeam == (beam - 1) {
+                                isNowDotted.removeLast()
+                                isNowDotted.append(true)
+                            }
+                            isNowDotted.append(false)
+                        }
+                        
+                        
+                    }
+                    
+                    var i = 0
+                    for beam in newBeams {
+                        let oldBeat = displayBeamsAndDots[measureIndex][beatIndex + i]
+                        var newBeat = ([(length: oldBeat.0[0].length, beams: beam, noteType: oldBeat.0[0].noteType, false, (isNowDotted[i] && !(oldBeat.0[0].dotted)) ? true : oldBeat.0[0].dotted )], units: oldBeat.units)
+                        
+                        var lengthInHalfBeats = 0
+                        switch beam {
+                        case -2:
+                            lengthInHalfBeats = 8
+                        case -1:
+                            lengthInHalfBeats = 4
+                        case 0:
+                            lengthInHalfBeats = 2
+                        case 1:
+                            lengthInHalfBeats = 1
+                        default:
+                            break
+                        }
+                        
+                        var newNote : [(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)] = []
+                        
+                        for i2 in 1...lengthInHalfBeats {
+                            if i2 == 1 {
+                                
+                            } else if i2 % 2 == 1 {
+                            
+                            } else if i2 == lengthInHalfBeats {
+                                var noteIndex = 0
+                                for note in oldBeat.0 {
+                                }
+                                
+                                
+                            }
+                        }
+                        
+                        i += 1
+                    }
+                    
+                    
+                }
+            }
+            beatIndex += 1
+        }
+        measureIndex += 1
+    }
+    */
     
-    return displayBeamsAndDots
+    return displayBeamsAndDots // The next bit of functionality for displaying is in ViewController
 }
+
 
 
 

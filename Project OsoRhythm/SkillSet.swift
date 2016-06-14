@@ -137,26 +137,43 @@ internal class PassiveDisplaySkill: SkillSet {
 }
 
 
-
+// The full list of skills covered in this app. If you want to play with their skill levels and see what the app does, you'll have to disable the Initialize() call in ViewController > viewDidLoad()
 
 internal let quarterNotes = SubDivisionSkill(name: "Quarter Notes", technicalName: "a.1", division: 1, beams: 0, sources: [["1", "1", "0"]], compatibleTimeSigs: ["b.2"], skillLevel: 1.5)
+
 internal let eighthNotes = SubDivisionSkill(name: "Eighth Notes", technicalName: "a.2", division: 2, beams: 1, sources: [["10", "10", "11", "11", "00"], ["01"]], compatibleTimeSigs: ["b.2"], skillLevel: 1.5)
+
 internal let tripletNotes = SubDivisionSkill(name: "Triplet Notes", technicalName: "a.3", division: 3, beams: 1, sources: [["100", "111", "100", "111", "000"], ["101", "110"], ["011", "001", "010"]], compatibleTimeSigs: ["b.3"], skillLevel: 0.5)
+
 internal let sixteenthNotes = SubDivisionSkill(name: "Sixteenth Notes", technicalName: "a.4", division: 4, beams: 2, sources: [["1000", "1111", "1010", "1000", "1111", "1010", "0000"], ["1011", "1110"], ["1101", "1100", "1001", "0010", "0011"], ["0111", "0110", "0101", "0100", "0001"]], compatibleTimeSigs: ["b.2"], skillLevel: 0.4)
+
 internal let quintupletNotes = SubDivisionSkill(name: "Quintuplet Notes", technicalName: "a.5", division: 5, beams: 2, sources: [["10000", "11111", "10000", "11111", "00000"]], compatibleTimeSigs: [], skillLevel: 0.3)
 
 internal let sextupletNotes = SubDivisionSkill(name: "Sextuplet Notes", technicalName: "a.6", division: 6, beams: 2, sources: [["111111", "101010", "111111", "101010", "000000"], ["100100", "101011", "101110", "101111", "111110", "111011"], ["100001", "100110", "111000", "100011"], ["110000", "101100", "100010", "101000"], ["011000"]], compatibleTimeSigs: ["b.3"], skillLevel: 0.2)
 
+
+
 internal let dupleSigs = TimeSignatureSkill(name: "Duple Signatures", technicalName: "b.2", timeType: 2, sources: [["4/4"], ["3/4", "2/4"], ["2/2"], ["5/4", "6/4"]], compatibleSubDivs: ["a.1", "a.2", "a.4"], skillLevel: 1.5)
+
 internal let tripleSigs = TimeSignatureSkill(name: "Triple Signatures", technicalName: "b.3", timeType: 3, sources: [["6/8", "12/8"], ["9/8"]], compatibleSubDivs: ["a.3"], skillLevel: 0.5)
-internal let complexSigs = TimeSignatureSkill(name: "Complex Signatures", technicalName: "b.1", timeType: 1, sources: [["2+3", "2+2+3"], ["3+2", "2+3+2", "3+2+2", "2+2+2+3", "3+3+3"], ["3+3+2", "3+2+3", "2+3+3", "2+2+2+2+3"]], compatibleSubDivs: ["a.1", "a.2", "a.3", "a.4", "a.6"], skillLevel: 0.3)
+
+internal let complexSigs = TimeSignatureSkill(name: "Complex Signatures", technicalName: "b.1", timeType: 1, sources: [["2+3", "2+2+3"], ["3+2", "2+3+2", "3+2+2", "2+2+2+3", "3+3+3"], ["3+3+2", "3+2+3", "2+3+3", "2+2+2+2+3"]], compatibleSubDivs: ["a.1", "a.2", "a.3", "a.4", "a.6"], skillLevel: 0.3) // The different format in the sources is necessary for complexSigs but becomes a nuisance in later code.
+
+
 
 internal let subMixture = MixtureSkill(name: "SubDivision Mixture", technicalName: "c.1", mixType: 0, sources: [[SourceMix(primary: 3, secondary: 2), SourceMix(primary: 3, secondary: 1)], [SourceMix(primary: 2, secondary: 3), SourceMix(primary: 3, secondary: 4)], [SourceMix(primary: 4, secondary: 3)]], skillLevel: 0.5)
+
 internal let timeMixture = MixtureSkill(name: "TimeSignature Mixture", technicalName: "c.2", mixType: 1, sources: [[SourceMix(primary: 2, secondary: 2), SourceMix(primary: 3, secondary: 3)], [SourceMix(primary: 2, secondary: 3), SourceMix(primary: 3, secondary: 2)], [SourceMix(primary: 1, secondary: 3), SourceMix(primary: 1, secondary: 2),]], skillLevel: 0.5)
+
+
+
 internal let passiveDisplay = PassiveDisplaySkill(name: "Passive Display", technicalName: "d.1", skillLevel:3.0)
+// Dictates the permittance of ties and dots in Display.swift
 
 internal let nilSkillSet = SkillSet()
 
+
+// Lists
 internal let skillSetListSub = [quarterNotes, eighthNotes, tripletNotes, sixteenthNotes, quintupletNotes, sextupletNotes]
 
 internal let skillSetListTime = [dupleSigs, tripleSigs, complexSigs]
@@ -165,6 +182,8 @@ internal let skillSetListMix = [subMixture, timeMixture]
 
 internal let skillSetList = [quarterNotes, eighthNotes, tripletNotes, sixteenthNotes, quintupletNotes, sextupletNotes, dupleSigs, tripleSigs, complexSigs, subMixture, timeMixture]
 
+
+// Other extensions and functions that deal with SkillSet instances
 internal extension SourceMix {
     func getSubSkills() -> (primary: SubDivisionSkill, secondary: SubDivisionSkill) {
         var returnedPrimary : SubDivisionSkill = quarterNotes

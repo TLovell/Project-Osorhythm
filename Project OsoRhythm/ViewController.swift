@@ -28,12 +28,13 @@ class ViewController: UIViewController {
     func addImageView(name: String, x: Double, y: Double, width: Double, height: Double) -> UIImageView {
         print("\(name) \(x) \(y) \(width) \(height)")
         let imageView = UIImageView(image: UIImage(named: name))
-        imageView.frame = CGRect(x: Int(round(x)), y: Int(round(y)), width: Int(round(width)), height: Int(round(height)))
+        imageView.frame = CGRect(x: Int(roundDown(x)), y: Int(roundDown(y)), width: Int(roundDown(width)), height: Int(roundDown(height)))
         view.addSubview(imageView)
         addedImages.append(imageView)
         return imageView
     }
     
+    // I really think this belongs in the Display script, but trying to retrieve things like the screen orientation and Size became problematic.
     func displayExercise(displayInfo: [[([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]], exercise: [[(String, Int)]], timeSignature: (String, String)) {
         let screenSize = UIScreen.mainScreen().bounds
         let orientation = UIDevice.currentDevice().orientation
@@ -43,6 +44,7 @@ class ViewController: UIViewController {
         var numberOfUnitsInLines : [Int] = []
         var measureIndex = 0
         var unitCount = 0
+        // Counts all the "units" needed per line.
         for measure in displayInfo {
             for beat in measure {
                 unitCount += beat.units
@@ -74,6 +76,7 @@ class ViewController: UIViewController {
         var lineIndex = 0
         let numberOfMeasuresInLine = (orientation.isLandscape) ? 2 : 1
         
+        // Notes and rests and flags and dots are officially added to the screen here. Beams and dots and time signatures are coming soon.
         for units in numberOfUnitsInLines {
             
             let unitWidth = Double(screenSize.width) / Double(units)
@@ -83,7 +86,7 @@ class ViewController: UIViewController {
             
             let measureIndexOffput = lineIndex * numberOfMeasuresInLine
             
-            var smallestNoteWidth = 0.0
+            var smallestNoteWidth = unitHeight / 3
             
             for measureIndex in (0 + measureIndexOffput)...((numberOfMeasuresInLine - 1) + measureIndexOffput) {
                 for beat in displayInfo[measureIndex] {
@@ -91,8 +94,6 @@ class ViewController: UIViewController {
                     for note in beat.0 {
                         sumOfLengthsInBeat += note.length
                     }
-                    
-                    print("sum of lengths in beat = \(sumOfLengthsInBeat)")
                     
                     let noteWidth = (unitWidth * Double(beat.units)) / Double(sumOfLengthsInBeat)
                     
@@ -119,13 +120,11 @@ class ViewController: UIViewController {
                 for beat in displayInfo[measureIndex] {
                     var sumOfLengthsInBeat = 0
                     
-                    print("\(beat.0)")
                     for note in beat.0 {
                         sumOfLengthsInBeat += note.length
                     }
                     
                     
-                    print("unitWidth = \(unitWidth), beat.units = \(beat.units), sumOfLengthsInBeat = \(sumOfLengthsInBeat)")
                     let deltaX = (unitWidth * Double(beat.units)) / Double(sumOfLengthsInBeat)
                     
                     
@@ -181,6 +180,12 @@ class ViewController: UIViewController {
         
         
     }
+
+    
+    
+    
+    
+    
     
     func resetView() {
         for image in addedImages {
@@ -190,18 +195,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func generateButton(sender: AnyObject) {
-        resetView()
+        resetView() // in ViewController.swift
         
         intensity = (intensity == 0.9) ? 0.0 : intensity + 0.1
-        let exercise = generateExercise()
-        let heldNotes = notesHeld(exercise.exercise)
+        let exercise = generateExercise() // in Generation.swift
+        let heldNotes = notesHeld(exercise.exercise) // in Display.swift
         Display2.text = String(heldNotes)
-        displayExercise(displayInformation(heldNotes), exercise: exercise.exercise, timeSignature: exercise.timeSignature)
+        displayExercise(displayInformation(heldNotes), exercise: exercise.exercise, timeSignature: exercise.timeSignature) // displayInformation is in Display.swift and displayExercise is in ViewController.swift
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 

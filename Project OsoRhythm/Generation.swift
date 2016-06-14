@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+// This function creates several lists of SkillSet instances that can be used for generation. It does so in such a way that should dodge bugs and compatibility errors in later functions.
 func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisionSkill], timeList : [TimeSignatureSkill], mixList : [MixtureSkill], mixSubList: [SourceMix], mixTimeList: [SourceMix]) {
     var unlockedList : [SkillSet] = []
     var basicMasteredList : [SkillSet] = []
@@ -22,6 +24,8 @@ func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisio
             unlockedList.append(skillSet)
         }
     }
+    
+    // Basic mastered list is all of the skills that the user has passed the first level of. Since the user is more comfortable with these, these will "fill in the blanks" around the primarySkill explained below.
     for skillSet in unlockedList {
         if skillSet.skillLevel >= 1 {
             basicMasteredList.append(skillSet)
@@ -33,6 +37,7 @@ func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisio
         }
     }
     
+    // Every exercise has a primary skill that it tests the user on. The primary skill does not need to be "basic mastered".
     for skillSet in intensityMatchList {
         switch skillSet {
         case is SubDivisionSkill:
@@ -84,6 +89,7 @@ func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisio
 }
 
 
+// Selects items from the lists created above that will be the subjects/properties/information needed for exercise generation
 func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool), primarySubSkill: (SubDivisionSkill, Int, Bool), secondarySubSkill: (SubDivisionSkill, Int, Bool), timeSignatureSkill: (TimeSignatureSkill, Int, Bool), mixedTimeSignatureSkill: (Bool, TimeSignatureSkill, Int, Bool), mixedTimeSubSkill: (SubDivisionSkill, Int, Bool)) {
     var lists = createGenerationLists()
     
@@ -109,6 +115,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     mixtureBool.1 = (lists.mixList.contains(timeMixture) && !(primarySkill is TimeSignatureSkill) && !(mixtureBool.0)) ? Bool(random(2)) : false
     exerciseMixedTimeSignature.0 = mixtureBool.1
     
+    // All of the other properties (with few exceptions) are chosen based on the primarySkill selected above
     switch primarySkill {
     case is SubDivisionSkill:
         
@@ -227,6 +234,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
         break
     }
     
+    //Complex time signatures require mixed subdivisions (one duple and one triple), which is handled here
     if mixtureBool.0 == false && exerciseTimeSignature.0 == complexSigs {
         mixtureBool.0 = true
         let mixSource = lists.mixSubList.randomItem().getSubSkills()
@@ -234,6 +242,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
         exercisePrimarySubSkill = (mixSource.secondary, Int(roundDown(mixSource.secondary.skillLevel)), true)
     }
     
+    //Mixed time signatures require a third Subdivision skill, so that the mixed measures will always have a compatible skill to work with
     exerciseMixedTimeSubSkill.0 = (getSkillSetFromName(exerciseMixedTimeSignature.1.compatibleSubDivs) as! [SubDivisionSkill]).intersection(lists.subList).randomItem()
     exerciseMixedTimeSubSkill.1 = Int(roundDown(exerciseMixedTimeSubSkill.0.skillLevel))
     
@@ -241,6 +250,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
 }
 
 
+// Takes the properties chosen above and creates an exercise.
 internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature: (String, String)) {
     let properties = generationProperties()
     
@@ -252,7 +262,7 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
     
     func numberOfBeatsInTimeSig(timeSig: String, timeType: Int) -> Int {
         var returnedInt = 0
-        switch timeType {
+        switch timeType { // Complex signatures come in a different format than duple and triple signatures, and are "translated" here
         case 1:
             for character in Array(timeSig.characters) {
                 if character == "2" || character == "3" {
@@ -269,7 +279,7 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
         return returnedInt
     }
     
-    for i in 0...3 {
+    for i in 0...3 { // Mixed time signatures occur on odd measure numbers
         if i % 2 == 1 && properties.mixedTimeSignatureSkill.0 {
             let timeType = properties.mixedTimeSignatureSkill.1.timeType
             measureInfo.append((numberOfBeatsInTimeSig(timeSignature.1, timeType: timeType), timeType))
@@ -285,7 +295,7 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
     var measureIndex = 0
     for measure in measureInfo {
         var measureBeatSkills : [(SubDivisionSkill, Int, Bool)] = []
-        if measure.1 == 1 {
+        if measure.1 == 1 { // Complex time signatures are formatted so that which beats are duple and which are triple are predetermined.
             let primaryIs3 = properties.primarySubSkill.0.compatibleTimeSigs[0] == "b.3"
             for character in timeSignature.0.characters {
                 if character == "2" { measureBeatSkills.append((primaryIs3) ? properties.secondarySubSkill : properties.primarySubSkill) }
@@ -318,7 +328,7 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
         var generatedMeasure : [(String, Int)] = []
         for beat in measure {
             var generatedBeat : (String, Int) = ("", 0)
-            generatedBeat.0 = beat.0.selectSource(beat.1, andUnder: beat.2)!
+            generatedBeat.0 = beat.0.selectSource(beat.1, andUnder: beat.2)! // the source selected from the skill instance will be one above the current skillLevel of the user if it is the primary skill, and if not it will be selected from the highest level passed "andUnder".
             generatedBeat.1 = (measureInfo[measureIndex].1 == 1) ? (getSkillSetFromName(beat.0.compatibleTimeSigs[0]) as! TimeSignatureSkill).timeType : measureInfo[measureIndex].1
             generatedMeasure.append(generatedBeat)
         }
