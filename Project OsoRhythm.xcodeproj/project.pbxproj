@@ -133,7 +133,6 @@
 		E74DCC821D03A4B200204126 /* Project OsoRhythm */ = {
 			isa = PBXGroup;
 			children = (
-				E74DCCB91D0E2A0000204126 /* Notation Assets */,
 				E74DCC831D03A4B200204126 /* AppDelegate.swift */,
 				E74DCCB31D03A5D100204126 /* Initialize.swift */,
 				E74DCCB11D03A53700204126 /* SkillSet.swift */,
@@ -144,6 +143,7 @@
 				E74DCC8A1D03A4B200204126 /* Assets.xcassets */,
 				E74DCC8C1D03A4B200204126 /* LaunchScreen.storyboard */,
 				E74DCC8F1D03A4B200204126 /* Info.plist */,
+				E74DCCB91D0E2A0000204126 /* Notation Assets */,
 			);
 			path = "Project OsoRhythm";
 			sourceTree = "<group>";
