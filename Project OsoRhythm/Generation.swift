@@ -241,7 +241,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
 }
 
 
-internal func generateExercise() -> [[(String, Int)]] {
+internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature: (String, String)) {
     let properties = generationProperties()
     
     var timeSignature : (String, String) = ("", "")
@@ -326,6 +326,6 @@ internal func generateExercise() -> [[(String, Int)]] {
         measureIndex += 1
     }
     
-    return generatedExercise
+    return (generatedExercise, timeSignature)
     
 }

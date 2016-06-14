@@ -17,6 +17,21 @@
 		E74DCCB21D03A53700204126 /* SkillSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB11D03A53700204126 /* SkillSet.swift */; };
 		E74DCCB41D03A5D100204126 /* Initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB31D03A5D100204126 /* Initialize.swift */; };
 		E74DCCB61D03A70800204126 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB51D03A70800204126 /* Generation.swift */; };
+		E74DCCB81D04D7F100204126 /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB71D04D7F100204126 /* Display.swift */; };
+		E74DCCC81D0E2A6800204126 /* Bar Line.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCBA1D0E2A6800204126 /* Bar Line.png */; };
+		E74DCCC91D0E2A6800204126 /* Beam.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCBB1D0E2A6800204126 /* Beam.png */; };
+		E74DCCCA1D0E2A6800204126 /* Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCBC1D0E2A6800204126 /* Dot.png */; };
+		E74DCCCB1D0E2A6800204126 /* Double Bar Line.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCBD1D0E2A6800204126 /* Double Bar Line.png */; };
+		E74DCCCC1D0E2A6800204126 /* Eighth Rest.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCBE1D0E2A6800204126 /* Eighth Rest.png */; };
+		E74DCCCD1D0E2A6800204126 /* Flag.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCBF1D0E2A6800204126 /* Flag.png */; };
+		E74DCCCE1D0E2A6800204126 /* Half Note.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC01D0E2A6800204126 /* Half Note.png */; };
+		E74DCCCF1D0E2A6800204126 /* Half Rest.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC11D0E2A6800204126 /* Half Rest.png */; };
+		E74DCCD11D0E2A6800204126 /* Quarter Rest.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC31D0E2A6800204126 /* Quarter Rest.png */; };
+		E74DCCD21D0E2A6800204126 /* Sixteenth Rest.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC41D0E2A6800204126 /* Sixteenth Rest.png */; };
+		E74DCCD31D0E2A6800204126 /* Tie.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC51D0E2A6800204126 /* Tie.png */; };
+		E74DCCD41D0E2A6800204126 /* Whole Note.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC61D0E2A6800204126 /* Whole Note.png */; };
+		E74DCCD51D0E2A6800204126 /* Whole Rest.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCC71D0E2A6800204126 /* Whole Rest.png */; };
+		E74DCCD71D0F867500204126 /* Note.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCCD61D0F867500204126 /* Note.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +68,21 @@
 		E74DCCB11D03A53700204126 /* SkillSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillSet.swift; sourceTree = "<group>"; };
 		E74DCCB31D03A5D100204126 /* Initialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialize.swift; sourceTree = "<group>"; };
 		E74DCCB51D03A70800204126 /* Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
+		E74DCCB71D04D7F100204126 /* Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
+		E74DCCBA1D0E2A6800204126 /* Bar Line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bar Line.png"; sourceTree = "<group>"; };
+		E74DCCBB1D0E2A6800204126 /* Beam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Beam.png; sourceTree = "<group>"; };
+		E74DCCBC1D0E2A6800204126 /* Dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dot.png; sourceTree = "<group>"; };
+		E74DCCBD1D0E2A6800204126 /* Double Bar Line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Double Bar Line.png"; sourceTree = "<group>"; };
+		E74DCCBE1D0E2A6800204126 /* Eighth Rest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eighth Rest.png"; sourceTree = "<group>"; };
+		E74DCCBF1D0E2A6800204126 /* Flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flag.png; sourceTree = "<group>"; };
+		E74DCCC01D0E2A6800204126 /* Half Note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Half Note.png"; sourceTree = "<group>"; };
+		E74DCCC11D0E2A6800204126 /* Half Rest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Half Rest.png"; sourceTree = "<group>"; };
+		E74DCCC31D0E2A6800204126 /* Quarter Rest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Quarter Rest.png"; sourceTree = "<group>"; };
+		E74DCCC41D0E2A6800204126 /* Sixteenth Rest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sixteenth Rest.png"; sourceTree = "<group>"; };
+		E74DCCC51D0E2A6800204126 /* Tie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tie.png; sourceTree = "<group>"; };
+		E74DCCC61D0E2A6800204126 /* Whole Note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Whole Note.png"; sourceTree = "<group>"; };
+		E74DCCC71D0E2A6800204126 /* Whole Rest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Whole Rest.png"; sourceTree = "<group>"; };
+		E74DCCD61D0F867500204126 /* Note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,10 +133,12 @@
 		E74DCC821D03A4B200204126 /* Project OsoRhythm */ = {
 			isa = PBXGroup;
 			children = (
+				E74DCCB91D0E2A0000204126 /* Notation Assets */,
 				E74DCC831D03A4B200204126 /* AppDelegate.swift */,
 				E74DCCB31D03A5D100204126 /* Initialize.swift */,
 				E74DCCB11D03A53700204126 /* SkillSet.swift */,
 				E74DCCB51D03A70800204126 /* Generation.swift */,
+				E74DCCB71D04D7F100204126 /* Display.swift */,
 				E74DCC851D03A4B200204126 /* ViewController.swift */,
 				E74DCC871D03A4B200204126 /* Main.storyboard */,
 				E74DCC8A1D03A4B200204126 /* Assets.xcassets */,
@@ -132,6 +164,27 @@
 				E74DCCA51D03A4B200204126 /* Info.plist */,
 			);
 			path = "Project OsoRhythmUITests";
+			sourceTree = "<group>";
+		};
+		E74DCCB91D0E2A0000204126 /* Notation Assets */ = {
+			isa = PBXGroup;
+			children = (
+				E74DCCBA1D0E2A6800204126 /* Bar Line.png */,
+				E74DCCBB1D0E2A6800204126 /* Beam.png */,
+				E74DCCBC1D0E2A6800204126 /* Dot.png */,
+				E74DCCBD1D0E2A6800204126 /* Double Bar Line.png */,
+				E74DCCBE1D0E2A6800204126 /* Eighth Rest.png */,
+				E74DCCBF1D0E2A6800204126 /* Flag.png */,
+				E74DCCC01D0E2A6800204126 /* Half Note.png */,
+				E74DCCC11D0E2A6800204126 /* Half Rest.png */,
+				E74DCCD61D0F867500204126 /* Note.png */,
+				E74DCCC31D0E2A6800204126 /* Quarter Rest.png */,
+				E74DCCC41D0E2A6800204126 /* Sixteenth Rest.png */,
+				E74DCCC51D0E2A6800204126 /* Tie.png */,
+				E74DCCC61D0E2A6800204126 /* Whole Note.png */,
+				E74DCCC71D0E2A6800204126 /* Whole Rest.png */,
+			);
+			name = "Notation Assets";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,7 +294,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E74DCCD11D0E2A6800204126 /* Quarter Rest.png in Resources */,
+				E74DCCD71D0F867500204126 /* Note.png in Resources */,
+				E74DCCCD1D0E2A6800204126 /* Flag.png in Resources */,
+				E74DCCCB1D0E2A6800204126 /* Double Bar Line.png in Resources */,
+				E74DCCCC1D0E2A6800204126 /* Eighth Rest.png in Resources */,
+				E74DCCC81D0E2A6800204126 /* Bar Line.png in Resources */,
 				E74DCC8E1D03A4B200204126 /* LaunchScreen.storyboard in Resources */,
+				E74DCCD41D0E2A6800204126 /* Whole Note.png in Resources */,
+				E74DCCCE1D0E2A6800204126 /* Half Note.png in Resources */,
+				E74DCCC91D0E2A6800204126 /* Beam.png in Resources */,
+				E74DCCD31D0E2A6800204126 /* Tie.png in Resources */,
+				E74DCCD51D0E2A6800204126 /* Whole Rest.png in Resources */,
+				E74DCCCA1D0E2A6800204126 /* Dot.png in Resources */,
+				E74DCCCF1D0E2A6800204126 /* Half Rest.png in Resources */,
+				E74DCCD21D0E2A6800204126 /* Sixteenth Rest.png in Resources */,
 				E74DCC8B1D03A4B200204126 /* Assets.xcassets in Resources */,
 				E74DCC891D03A4B200204126 /* Main.storyboard in Resources */,
 			);
@@ -272,6 +339,7 @@
 				E74DCCB41D03A5D100204126 /* Initialize.swift in Sources */,
 				E74DCCB21D03A53700204126 /* SkillSet.swift in Sources */,
 				E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */,
+				E74DCCB81D04D7F100204126 /* Display.swift in Sources */,
 				E74DCCB61D03A70800204126 /* Generation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,6 +569,7 @@
 				E74DCCAA1D03A4B200204126 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E74DCCAB1D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythmTests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +578,7 @@
 				E74DCCAD1D03A4B200204126 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E74DCCAE1D03A4B200204126 /* Build configuration list for PBXNativeTarget "Project OsoRhythmUITests" */ = {
 			isa = XCConfigurationList;
@@ -517,6 +587,7 @@
 				E74DCCB01D03A4B200204126 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

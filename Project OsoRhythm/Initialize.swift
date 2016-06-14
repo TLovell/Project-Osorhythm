@@ -14,6 +14,7 @@ internal func random(int: Int) -> Int {
 
 internal extension Array {
     func randomItem() -> Element {
+        print("\(self)[random(\(self.count))]")
         return self[random(self.count)]
     }
 }
