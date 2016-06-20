@@ -45,4 +45,21 @@ internal func roundDown(double: Double) -> Double {
     }
 }
 
-internal var intensity = 0.6
+internal var intensity = 0.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

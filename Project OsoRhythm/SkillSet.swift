@@ -68,7 +68,7 @@ internal class SubDivisionSkill: SkillSet {
             sourceIndex -= 1
         }
         
-        return self.sources[sourceIndex][random(self.sources[sourceIndex].count)]
+        return self.sources[sourceIndex].randomItem()
     }
 }
 
@@ -95,7 +95,7 @@ internal class TimeSignatureSkill: SkillSet {
             sourceIndex -= 1
         }
         
-        return self.sources[sourceIndex][random(self.sources[sourceIndex].count)]
+        return self.sources[sourceIndex].randomItem()
     }
 }
 
@@ -120,7 +120,7 @@ internal class MixtureSkill: SkillSet {
             sourceIndex -= 1
         }
         
-        return self.sources[sourceIndex][random(self.sources[sourceIndex].count)]
+        return self.sources[sourceIndex].randomItem()
     }
 }
 
@@ -145,7 +145,7 @@ internal let eighthNotes = SubDivisionSkill(name: "Eighth Notes", technicalName:
 
 internal let tripletNotes = SubDivisionSkill(name: "Triplet Notes", technicalName: "a.3", division: 3, beams: 1, sources: [["100", "111", "100", "111", "000"], ["101", "110"], ["011", "001", "010"]], compatibleTimeSigs: ["b.3"], skillLevel: 0.5)
 
-internal let sixteenthNotes = SubDivisionSkill(name: "Sixteenth Notes", technicalName: "a.4", division: 4, beams: 2, sources: [["1000", "1111", "1010", "1000", "1111", "1010", "0000"], ["1011", "1110"], ["1101", "1100", "1001", "0010", "0011"], ["0111", "0110", "0101", "0100", "0001"]], compatibleTimeSigs: ["b.2"], skillLevel: 0.4)
+internal let sixteenthNotes = SubDivisionSkill(name: "Sixteenth Notes", technicalName: "a.4", division: 4, beams: 2, sources: [["1000", "1111", "1010", "0000"], ["1011", "1110"], ["1101", "1100", "1001", "0010", "0011"], ["0111", "0110", "0101", "0100", "0001"]], compatibleTimeSigs: ["b.2"], skillLevel: 0.4)
 
 internal let quintupletNotes = SubDivisionSkill(name: "Quintuplet Notes", technicalName: "a.5", division: 5, beams: 2, sources: [["10000", "11111", "10000", "11111", "00000"]], compatibleTimeSigs: [], skillLevel: 0.3)
 
@@ -153,7 +153,7 @@ internal let sextupletNotes = SubDivisionSkill(name: "Sextuplet Notes", technica
 
 
 
-internal let dupleSigs = TimeSignatureSkill(name: "Duple Signatures", technicalName: "b.2", timeType: 2, sources: [["4/4"], ["3/4", "2/4"], ["2/2"], ["5/4", "6/4"]], compatibleSubDivs: ["a.1", "a.2", "a.4"], skillLevel: 1.5)
+internal let dupleSigs = TimeSignatureSkill(name: "Duple Signatures", technicalName: "b.2", timeType: 2, sources: [["4/4"], ["3/4", "2/4"], ["5/4", "6/4"]], compatibleSubDivs: ["a.1", "a.2", "a.4"], skillLevel: 1.5)
 
 internal let tripleSigs = TimeSignatureSkill(name: "Triple Signatures", technicalName: "b.3", timeType: 3, sources: [["6/8", "12/8"], ["9/8"]], compatibleSubDivs: ["a.3"], skillLevel: 0.5)
 

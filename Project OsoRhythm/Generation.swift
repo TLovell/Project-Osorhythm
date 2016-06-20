@@ -108,6 +108,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     var exerciseMixedTimeSubSkill : (SubDivisionSkill, Int, Bool) = (quarterNotes, 0, true)
     
     let primarySkill = lists.primaryList.randomItem()
+    print("Primary Skill: \(primarySkill.name)")
     
     var mixtureBool = (false, false)
     mixtureBool.0 = (lists.mixList.contains(subMixture)) ? Bool(random(2)) : false
@@ -260,33 +261,48 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
     
     var measureInfo : [(Int, Int)] = []
     
-    func numberOfBeatsInTimeSig(timeSig: String, timeType: Int) -> Int {
+    func numberOfBeatsInTimeSig(timeSig: String, timeType: Int) -> (Int, timeSig: String) {
         var returnedInt = 0
+        var numberOf8s = 0
+        var returnedTimeSig = ""
         switch timeType { // Complex signatures come in a different format than duple and triple signatures, and are "translated" here
         case 1:
             for character in Array(timeSig.characters) {
                 if character == "2" || character == "3" {
                     returnedInt += 1
+                    numberOf8s += Int(String(character))!
                 }
             }
+            
         case 2:
             returnedInt = Int(String(timeSig.characters.prefix(1)))!
+            returnedTimeSig = timeSig
         case 3:
             returnedInt = Int(String(timeSig.characters.prefix(Int(timeSig.startIndex.distanceTo(timeSig.characters.indexOf("/")!)))))! / 3
+            returnedTimeSig = timeSig
         default:
             break
         }
-        return returnedInt
+        if numberOf8s >= 1 {
+            returnedTimeSig = "\(numberOf8s)/8"
+        }
+        
+        return (returnedInt, returnedTimeSig)
     }
+    
+    var returnedTimeSig = ("", "")
     
     for i in 0...3 { // Mixed time signatures occur on odd measure numbers
         if i % 2 == 1 && properties.mixedTimeSignatureSkill.0 {
             let timeType = properties.mixedTimeSignatureSkill.1.timeType
-            measureInfo.append((numberOfBeatsInTimeSig(timeSignature.1, timeType: timeType), timeType))
+            let numberOfBeats = numberOfBeatsInTimeSig(timeSignature.1, timeType: timeType)
+            measureInfo.append((numberOfBeats.0, timeType))
+            returnedTimeSig.1 = numberOfBeats.timeSig
         } else {
             let timeType = properties.timeSignatureSkill.0.timeType
-            measureInfo.append((numberOfBeatsInTimeSig(timeSignature.0, timeType: timeType), timeType))
-            
+            let numberOfBeats = numberOfBeatsInTimeSig(timeSignature.0, timeType: timeType)
+            measureInfo.append((numberOfBeats.0, timeType))
+            returnedTimeSig = (numberOfBeats.timeSig, numberOfBeats.timeSig)
         }
     }
     
@@ -336,6 +352,6 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
         measureIndex += 1
     }
     
-    return (generatedExercise, timeSignature)
+    return (generatedExercise, returnedTimeSig)
     
 }

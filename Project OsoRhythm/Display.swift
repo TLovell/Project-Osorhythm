@@ -39,7 +39,7 @@ internal func notesHeld(exercise: [[(String, Int)]]) -> [[(String, Int)]] {
                     meetsLevelRequirement = true
                 }
                 
-                newNote = (meetsLevelRequirement && previousNote != "0" && random(4) != 0) ? "2" : String(note)
+                newNote = (meetsLevelRequirement && previousNote != "0" && random(4) != 0 && note == "0") ? "2" : String(note)
                 previousNote = newNote
                 newBeat.0 += newNote
                 
