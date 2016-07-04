@@ -8,6 +8,8 @@
 
 import Foundation
 
+import UIKit
+
 //Initialize probably isn't the proper name for a script like this but basically this creates the functions and extensions and variables used throughout the app that didn't fall under a category.
 
 internal func random(int: Int) -> Int {
@@ -47,8 +49,15 @@ internal func roundDown(double: Double) -> Double {
 
 internal var intensity = 0.1
 
+internal enum AppState {
+    case ExerciseRunning
+    case CountOff
+    case Results
+}
 
+internal var currentAppState = AppState.CountOff
 
+internal let accentColor = UIColor(red: 122/255, green: 0.0, blue: 1.0, alpha: 1.0)
 
 
 

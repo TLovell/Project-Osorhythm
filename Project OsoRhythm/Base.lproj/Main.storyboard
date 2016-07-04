@@ -18,37 +18,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mkV-IL-ZLP">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mkV-IL-ZLP">
                                 <rect key="frame" x="20" y="440" width="560" height="160"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qws-to-LQG">
+                                <rect key="frame" x="235" y="467" width="131" height="105"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="131" id="sZp-QV-D71"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="46"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSr-dS-lNF">
-                                <rect key="frame" x="268" y="505" width="64" height="30"/>
-                                <state key="normal" title="Generate"/>
+                                <rect key="frame" x="268" y="285" width="64" height="30"/>
+                                <state key="normal" title="Generate">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="generateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wg9-1w-Vks"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="Qws-to-LQG" firstAttribute="centerY" secondItem="mkV-IL-ZLP" secondAttribute="centerY" id="3xf-L2-hvE"/>
                             <constraint firstItem="mkV-IL-ZLP" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Cw5-au-HpG"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aSr-dS-lNF" secondAttribute="bottom" constant="65" id="D2L-cJ-L89"/>
-                            <constraint firstItem="mkV-IL-ZLP" firstAttribute="centerY" secondItem="aSr-dS-lNF" secondAttribute="centerY" id="QKd-N8-NeP"/>
-                            <constraint firstItem="mkV-IL-ZLP" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="QLJ-jd-V3j"/>
+                            <constraint firstItem="mkV-IL-ZLP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="D2A-wT-TWF"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aSr-dS-lNF" secondAttribute="bottom" constant="285" id="D2L-cJ-L89"/>
+                            <constraint firstItem="mkV-IL-ZLP" firstAttribute="centerY" secondItem="aSr-dS-lNF" secondAttribute="centerY" constant="220" id="QKd-N8-NeP"/>
                             <constraint firstItem="mkV-IL-ZLP" firstAttribute="centerX" secondItem="aSr-dS-lNF" secondAttribute="centerX" id="VNx-K7-pFz"/>
-                            <constraint firstItem="mkV-IL-ZLP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="uGc-do-7vn"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Qws-to-LQG" secondAttribute="bottom" constant="28" id="hW8-lu-hkF"/>
+                            <constraint firstItem="mkV-IL-ZLP" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="no3-2d-uda"/>
+                            <constraint firstItem="Qws-to-LQG" firstAttribute="centerX" secondItem="mkV-IL-ZLP" secondAttribute="centerX" id="sgT-Fu-i0o"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="Display2" destination="mkV-IL-ZLP" id="pm1-cJ-k37"/>
+                        <outlet property="generateView" destination="aSr-dS-lNF" id="miE-Un-gWM"/>
+                        <outlet property="tapOffLabel" destination="Qws-to-LQG" id="oUi-wJ-FzB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="528" y="610"/>
+            <point key="canvasLocation" x="595" y="1079"/>
         </scene>
     </scenes>
 </document>

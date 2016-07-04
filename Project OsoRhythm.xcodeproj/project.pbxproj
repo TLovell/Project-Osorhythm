@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E71213401D2468B500A3C2F2 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E712133F1D2468B500A3C2F2 /* CircleButton.swift */; };
+		E71213421D25E54D00A3C2F2 /* ExerciseDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71213411D25E54D00A3C2F2 /* ExerciseDisplay.swift */; };
 		E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCC831D03A4B200204126 /* AppDelegate.swift */; };
 		E74DCC861D03A4B200204126 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCC851D03A4B200204126 /* ViewController.swift */; };
 		E74DCC891D03A4B200204126 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E74DCC871D03A4B200204126 /* Main.storyboard */; };
@@ -36,6 +38,7 @@
 		E74DCD311D15F95D00204126 /* Whole Rest.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCD211D15F95D00204126 /* Whole Rest.png */; };
 		E74DCD331D18850500204126 /* Bracket.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCD321D18850500204126 /* Bracket.png */; };
 		E74DCD351D18973100204126 /* Signature Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = E74DCD341D18973100204126 /* Signature Bar.png */; };
+		E74DCD371D1B29F000204126 /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCD361D1B29F000204126 /* Evaluation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E712133F1D2468B500A3C2F2 /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		E71213411D25E54D00A3C2F2 /* ExerciseDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseDisplay.swift; sourceTree = "<group>"; };
 		E74DCC801D03A4B100204126 /* Project OsoRhythm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project OsoRhythm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E74DCC831D03A4B200204126 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E74DCC851D03A4B200204126 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +96,7 @@
 		E74DCD211D15F95D00204126 /* Whole Rest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Whole Rest.png"; sourceTree = "<group>"; };
 		E74DCD321D18850500204126 /* Bracket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bracket.png; sourceTree = "<group>"; };
 		E74DCD341D18973100204126 /* Signature Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Signature Bar.png"; sourceTree = "<group>"; };
+		E74DCD361D1B29F000204126 /* Evaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,9 @@
 			children = (
 				E74DCC831D03A4B200204126 /* AppDelegate.swift */,
 				E74DCCB31D03A5D100204126 /* Initialize.swift */,
+				E74DCD361D1B29F000204126 /* Evaluation.swift */,
+				E712133F1D2468B500A3C2F2 /* CircleButton.swift */,
+				E71213411D25E54D00A3C2F2 /* ExerciseDisplay.swift */,
 				E74DCCB11D03A53700204126 /* SkillSet.swift */,
 				E74DCCB51D03A70800204126 /* Generation.swift */,
 				E74DCCB71D04D7F100204126 /* Display.swift */,
@@ -353,8 +362,11 @@
 			files = (
 				E74DCC861D03A4B200204126 /* ViewController.swift in Sources */,
 				E74DCCB41D03A5D100204126 /* Initialize.swift in Sources */,
+				E74DCD371D1B29F000204126 /* Evaluation.swift in Sources */,
+				E71213401D2468B500A3C2F2 /* CircleButton.swift in Sources */,
 				E74DCCB21D03A53700204126 /* SkillSet.swift in Sources */,
 				E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */,
+				E71213421D25E54D00A3C2F2 /* ExerciseDisplay.swift in Sources */,
 				E74DCCB81D04D7F100204126 /* Display.swift in Sources */,
 				E74DCCB61D03A70800204126 /* Generation.swift in Sources */,
 			);
@@ -500,6 +512,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Project OsoRhythm/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythm";
@@ -512,6 +525,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Project OsoRhythm/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UNCSpark.Project-OsoRhythm";
