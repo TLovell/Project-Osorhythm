@@ -10,7 +10,7 @@ import Foundation
 
 var currentAnswerKey : [Double] = []
 
-internal func answerKey(exercise: [[(String, Int)]]) -> (answerKey: [Double], beatsPerSecond: Double, initialTempo: Double) {
+internal func answerKey(exercise: [[(String, Int)]]) -> (answerKey: [Double], beatsPerSecond: Double, initialTempo: Double, unitTimeInterval: Double) {
     let tempo = 80.0 + (30 * intensity)
     let beatsPerSecond = 60 / tempo
     
@@ -48,10 +48,11 @@ internal func answerKey(exercise: [[(String, Int)]]) -> (answerKey: [Double], be
     print(answerKey)
     
     currentAnswerKey = answerKey
-    return (answerKey, beatsPerSecond, initialTempo)
+    return (answerKey, beatsPerSecond, initialTempo, unitInterval)
 }
 
 internal var exerciseInitialTime : NSTimeInterval = 0.0
+internal var correctTouches = 0
 
 internal func tapAreaTouched() {
     if currentAppState == .ExerciseRunning {
@@ -59,15 +60,21 @@ internal func tapAreaTouched() {
         
         print(touchTime)
         
-        let primarySensitivity = 0.2
+        let primarySensitivity = 0.04
+        let secondarySensitivity = 0.095
         
         var touchWasCorrect = false
         
         for timeIndex in 0...(currentAnswerKey.count - 1) {
             let time = currentAnswerKey[timeIndex]
-            if touchTime > (time - primarySensitivity) && touchTime < (time + primarySensitivity) {
+            if touchTime > (time - secondarySensitivity) && touchTime < (time + secondarySensitivity) {
                 currentAnswerKey.removeAtIndex(timeIndex)
                 touchWasCorrect = true
+                
+                let displacement = (abs(touchTime - time) < primarySensitivity) ? 0.0 : ((touchTime - time) / secondarySensitivity)
+                
+                exerciseDisplay!.recordTouch(timeIndex + correctTouches, displacement: displacement)
+                correctTouches += 1
                 break
             }
         }

@@ -20,6 +20,7 @@ class ExerciseDisplay: UIView {
     private var unitHeight = 0.0
     private var noteHeight = 0.0
     private var noteWidth = 0.0
+    private var tappedNoteFrames : [CGRect] = []
     
     override init(frame: CGRect) {
         self.orientation = UIDevice.currentDevice().orientation
@@ -41,6 +42,7 @@ class ExerciseDisplay: UIView {
         addedImages.removeAll()
         addedLabels.removeAll()
         addedFlags.removeAll()
+        tappedNoteFrames.removeAll()
         
         if hardReset {
             currentExercise = []
@@ -127,11 +129,14 @@ class ExerciseDisplay: UIView {
         print("\(name) \(x) \(y) \(width) \(height)")
         let imageView = UIImageView(image: UIImage(named: name))
         imageView.frame = CGRect(x: Int(roundDown(x)), y: Int(roundDown(y)), width: Int(roundDown(width)), height: Int(roundDown(height)))
-        self.addSubview(imageView)
-        addedImages.append(imageView)
         if name == "Flag.png" {
             addedFlags.append(imageView)
+        } else if name == "Note Head.png" {
+            imageView.image = imageView.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            imageView.tintColor = accentColor
         }
+        self.addSubview(imageView)
+        addedImages.append(imageView)
         return imageView
     }
     
@@ -234,6 +239,9 @@ class ExerciseDisplay: UIView {
                             
                             if note.noteType == 1 {
                                 noteName = "Quarter Note.png"
+                                if !(previousNote.tied) {
+                                    tappedNoteFrames.append(CGRect(x: x, y: y, width: noteWidth, height: noteHeight))
+                                }
                             } else {
                                 switch note.beams {
                                 case 0:
@@ -248,6 +256,7 @@ class ExerciseDisplay: UIView {
                             }
                             
                             addImageView(noteName, x: x, y: y, width: noteWidth, height: noteHeight)
+                            
                             
                             if previousNote.tied {
                                 if previousNote.x < x {
@@ -332,7 +341,11 @@ class ExerciseDisplay: UIView {
 
     }
     
-    
+    func recordTouch(touchIndex: Int, displacement: Double) {
+        let noteFrame = tappedNoteFrames[touchIndex]
+        let x = Double(noteFrame.origin.x) + ((noteWidth / 2) * displacement)
+        addImageView("Note Head.png", x: x, y: Double(noteFrame.origin.y), width: Double(noteFrame.width), height: Double(noteFrame.height))
+    }
     
     
     func display(exercise: [[([(length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool)], units: Int)]], timeSignature: (String, String), orientation: UIDeviceOrientation) {

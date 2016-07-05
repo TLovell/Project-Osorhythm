@@ -8,6 +8,11 @@
 
 import UIKit
 
+
+internal var currentExercise : [[(String, Int)]]?
+internal var unitTimeInterval : Double?
+internal var exerciseDisplay : ExerciseDisplay?
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var Display: UITextView!
@@ -15,7 +20,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var tapOffLabel: UILabel!
     
     
-    var exerciseDisplay : ExerciseDisplay? = nil
     @IBOutlet weak var generateView: UIButton!
 
     var tapCircle : CircleButton?
@@ -38,6 +42,15 @@ class ViewController: UIViewController {
         view.addSubview(exerciseDisplay!)
     }
     
+    var metronome: Metronome?
+    func drawMetronome() {
+        let screenSize = UIScreen.mainScreen().bounds
+        let frame = CGRect(x: 0.0, y: (2 / 3) * Double(screenSize.height), width: Double(screenSize.width), height: (1 / 2) * Double(screenSize.height))
+        
+        metronome = Metronome(frame: frame)
+        view.addSubview(metronome!)
+    }
+    
     func initialize() {
         
         drawTapCircle()
@@ -58,23 +71,31 @@ class ViewController: UIViewController {
     func beatPassed() {
         let countDown = 16 - beatCount
         
+        var blink = false
+        
         if tapCircle != nil {
-        switch countDown {
-        case 8, 4:
-            tapCircle!.setLabelText("1")
-        case 6, 3:
-            tapCircle!.setLabelText("2")
-        case 2:
-            tapCircle!.setLabelText("Ready")
-        case 1:
-            tapCircle!.setLabelText("Go!")
-            exerciseInitialTime = NSDate().timeIntervalSinceReferenceDate
-            currentAppState = .ExerciseRunning
-        default:
-            break
+            switch countDown {
+            case 8, 4:
+                tapCircle!.setLabelText("1")
+            case 6, 3:
+                tapCircle!.setLabelText("2")
+            case 2:
+                tapCircle!.setLabelText("Ready")
+            case 1:
+                tapCircle!.setLabelText("Go!")
+                exerciseInitialTime = NSDate().timeIntervalSinceReferenceDate
+                currentAppState = .ExerciseRunning
+            case 0:
+                metronome!.blinkWithExercise(currentExercise!, unitTimeInterval: unitTimeInterval!)
+                tempoTimer.invalidate()
+                blink = true
+            default:
+                break
+            }
         }
-        }
-            
+        
+        
+        metronome!.blink(blink)
         beatCount += 1
     }
     
@@ -108,21 +129,25 @@ class ViewController: UIViewController {
         
         intensity = (intensity == 0.9) ? 0.0 : intensity + 0.1
         let exercise = generateExercise() // in Generation.swift
-        let heldNotes = notesHeld(exercise.exercise) // in Display.swift
+        currentExercise = exercise.exercise
+        let heldNotes = notesHeld(currentExercise!) // in Display.swift
         
         exerciseDisplay!.display(displayInformation(heldNotes), timeSignature: exercise.timeSignature, orientation: UIDevice.currentDevice().orientation)
         
-        answerKey(exercise.exercise)
+        let answer = answerKey(currentExercise!)
+        unitTimeInterval = answer.unitTimeInterval
+        
         
         beatCount = 0
         
         tempoTimer.invalidate()
-        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answerKey(exercise.exercise).initialTempo, target: self, selector: Selector("beatPassed"), userInfo: nil, repeats: true)
+        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: Selector("beatPassed"), userInfo: nil, repeats: true)
     
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        drawMetronome()
         initialize()
         
         drawExerciseDisplay()

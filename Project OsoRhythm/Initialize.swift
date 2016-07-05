@@ -57,7 +57,7 @@ internal enum AppState {
 
 internal var currentAppState = AppState.CountOff
 
-internal let accentColor = UIColor(red: 122/255, green: 0.0, blue: 1.0, alpha: 1.0)
+internal let accentColor = UIColor(red: 0.0, green: (122 / 255), blue: 1.0, alpha: 1.0)
 
 
 
