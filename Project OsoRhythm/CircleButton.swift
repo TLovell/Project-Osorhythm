@@ -60,7 +60,7 @@ class CircleButton: UIView {
         
         if currentAppState == .CountOff {
             frameTimer.invalidate()
-            frameTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("framePassed"), userInfo: nil, repeats: true)
+            frameTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.framePassed), userInfo: nil, repeats: true)
         }
     }
     

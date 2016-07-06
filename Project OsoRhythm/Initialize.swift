@@ -59,7 +59,33 @@ internal var currentAppState = AppState.CountOff
 
 internal let accentColor = UIColor(red: 0.0, green: (122 / 255), blue: 1.0, alpha: 1.0)
 
-
+extension UIImage {
+    enum AssetIdentifier: String {
+        case Beam = "Beam.png"
+        case Bracket = "Bracket.png"
+        case Dot = "Dot.png"
+        case Flag = "Flag.png"
+        case DoubleBarLine = "Double Bar Line.png"
+        case EighthRest = "Eighth Rest.png"
+        case EndBarLine = "End Bar Line.png"
+        case HalfNote = "Half Note.png"
+        case HalfRest = "Half Rest.png"
+        case MiddleBarLine = "Middle Bar Line.png"
+        case NoteHead = "Note Head.png"
+        case QuarterNote = "Quarter Note.png"
+        case QuarterRest = "Quarter Rest.png"
+        case SignatureBar = "Signature Bar.png"
+        case SixteenthRest = "Sixteenth Rest.png"
+        case StartBarLine = "Start Bar Line.png"
+        case Tie = "Tie.png"
+        case WholeNote = "Whole Note.png"
+        case WholeRest = "Whole Rest.png"
+    }
+    
+    convenience init!(assetIndentifier: AssetIdentifier) {
+        self.init(named: assetIndentifier.rawValue)
+    }
+}
 
 
 

@@ -116,7 +116,7 @@ class ViewController: UIViewController {
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("deviceRotated"), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.deviceRotated), userInfo: nil, repeats: false)
     }
     
     @IBAction func generateButton(sender: AnyObject) {
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         beatCount = 0
         
         tempoTimer.invalidate()
-        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: Selector("beatPassed"), userInfo: nil, repeats: true)
+        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: #selector(ViewController.beatPassed), userInfo: nil, repeats: true)
     
     }
     

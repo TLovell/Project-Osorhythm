@@ -125,13 +125,12 @@ class ExerciseDisplay: UIView {
         noteWidth = smallestNoteWidth
     }
     
-    func addImageView(name: String, x: Double, y: Double, width: Double, height: Double) -> UIImageView {
-        print("\(name) \(x) \(y) \(width) \(height)")
-        let imageView = UIImageView(image: UIImage(named: name))
+    func addImageView(assetIndentifier: UIImage.AssetIdentifier, x: Double, y: Double, width: Double, height: Double) -> UIImageView {
+        let imageView = UIImageView(image: UIImage(assetIndentifier: assetIndentifier))
         imageView.frame = CGRect(x: Int(roundDown(x)), y: Int(roundDown(y)), width: Int(roundDown(width)), height: Int(roundDown(height)))
-        if name == "Flag.png" {
+        if assetIndentifier == .Flag {
             addedFlags.append(imageView)
-        } else if name == "Note Head.png" {
+        } else if assetIndentifier == .NoteHead {
             imageView.image = imageView.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
             imageView.tintColor = accentColor
         }
@@ -149,6 +148,8 @@ class ExerciseDisplay: UIView {
         addedLabels.append(label)
         return label
     }
+    
+    
     
     func displayNotation(unitsInLines: [Int]) {
         var previousNote : (length: Int, beams: Int, noteType: Int, tied: Bool, dotted: Bool, x: Double, y: Double, drawnBeams: Int, drawnFlags: Int) = (0, 0, 0, false, false, 0, 0, 0, 0)
@@ -169,9 +170,9 @@ class ExerciseDisplay: UIView {
             for measureIndex in (measureIndexOffput)...((numberOfMeasuresInLine - 1) + measureIndexOffput) {
                 
                 if measureIndex == measureIndexOffput {
-                    addImageView("Start Bar Line.png", x: x, y: y, width: unitWidth, height: noteHeight)
+                    addImageView(.StartBarLine, x: x, y: y, width: unitWidth, height: noteHeight)
                 } else {
-                    addImageView("Middle Bar Line.png", x: x, y: y, width: unitWidth, height: noteHeight)
+                    addImageView(.MiddleBarLine, x: x, y: y, width: unitWidth, height: noteHeight)
                 }
                 x += unitWidth
                 
@@ -187,7 +188,7 @@ class ExerciseDisplay: UIView {
                         sigDenominator = String(timeSignature.0.characters.last!)
                     }
                     
-                    addImageView("Signature Bar.png", x: x, y: y, width: unitWidth, height: noteHeight)
+                    addImageView(.SignatureBar, x: x, y: y, width: unitWidth, height: noteHeight)
                     addLabel(sigNumerator, x: x, y: y, width: unitWidth, height: noteHeight * (7 / 24))
                     addLabel(sigDenominator, x: x, y: y + (noteHeight * (9 / 24)), width: unitWidth, height: noteHeight * (7 / 24))
                     
@@ -204,7 +205,7 @@ class ExerciseDisplay: UIView {
                         sigDenominator = String(timeSignature.0.characters.last!)
                     }
                     
-                    addImageView("Signature Bar.png", x: x, y: y, width: unitWidth, height: noteHeight)
+                    addImageView(.SignatureBar, x: x, y: y, width: unitWidth, height: noteHeight)
                     addLabel(sigNumerator, x: x, y: y, width: unitWidth, height: noteHeight * (7 / 24))
                     addLabel(sigDenominator, x: x, y: y + (noteHeight * (9 / 24)), width: unitWidth, height: noteHeight * (7 / 24))
                     
@@ -227,7 +228,7 @@ class ExerciseDisplay: UIView {
                         let labelHeight =  (unitHeight - (noteHeight * (5 / 6))) < (noteHeight * (4 / 9)) ? unitHeight - (noteHeight * (5 / 6)) : noteHeight * (4 / 9)
                         
                         addLabel("\(sumOfLengthsInBeat)", x: x + (noteWidth / 2), y: y - labelHeight - 3, width: (deltaX * Double(sumOfLengthsInBeat)) * (39 / 40), height: labelHeight / 2)
-                        addImageView("Bracket.png", x: x + (noteWidth / 2), y: y - labelHeight - 3, width: (deltaX * Double(sumOfLengthsInBeat) * (39 / 40)), height: labelHeight)
+                        addImageView(.Bracket, x: x + (noteWidth / 2), y: y - labelHeight - 3, width: (deltaX * Double(sumOfLengthsInBeat) * (39 / 40)), height: labelHeight)
                     }
                     
                     
@@ -235,41 +236,41 @@ class ExerciseDisplay: UIView {
                     var noteIndex = 0
                     for note in beat.0 {
                         if note.beams >= 0 {
-                            var noteName : String = ""
+                            var noteID : UIImage.AssetIdentifier?
                             
                             if note.noteType == 1 {
-                                noteName = "Quarter Note.png"
+                                noteID = .QuarterNote
                                 if !(previousNote.tied) {
                                     tappedNoteFrames.append(CGRect(x: x, y: y, width: noteWidth, height: noteHeight))
                                 }
                             } else {
                                 switch note.beams {
                                 case 0:
-                                    noteName = "Quarter Rest.png"
+                                    noteID = .QuarterRest
                                 case 1:
-                                    noteName = "Eighth Rest.png"
+                                    noteID = .EighthRest
                                 case 2:
-                                    noteName = "Sixteenth Rest.png"
+                                    noteID = .SixteenthRest
                                 default:
                                     break
                                 }
                             }
                             
-                            addImageView(noteName, x: x, y: y, width: noteWidth, height: noteHeight)
+                            addImageView(noteID!, x: x, y: y, width: noteWidth, height: noteHeight)
                             
                             
                             if previousNote.tied {
                                 if previousNote.x < x {
-                                    addImageView("Tie.png", x: previousNote.x + (noteWidth / 2), y: previousNote.y + ((2/3) * noteHeight), width: x - previousNote.x, height: noteWidth)
+                                    addImageView(.Tie, x: previousNote.x + (noteWidth / 2), y: previousNote.y + ((2/3) * noteHeight), width: x - previousNote.x, height: noteWidth)
                                 } else {
-                                    addImageView("Tie.png", x: previousNote.x + (noteWidth / 2), y: previousNote.y + ((2/3) * noteHeight), width: (Double(frame.width) + 10) - previousNote.x, height: noteWidth)
-                                    addImageView("Tie.png", x: -10 - (noteWidth / 2), y: y + ((2/3) * noteHeight), width: x - (-10 - (noteWidth / 2)), height: noteWidth)
+                                    addImageView(.Tie, x: previousNote.x + (noteWidth / 2), y: previousNote.y + ((2/3) * noteHeight), width: (Double(frame.width) + 10) - previousNote.x, height: noteWidth)
+                                    addImageView(.Tie, x: -10 - (noteWidth / 2), y: y + ((2/3) * noteHeight), width: x - (-10 - (noteWidth / 2)), height: noteWidth)
                                 }
                             }
                             
                             
                             if note.dotted {
-                                addImageView("Dot.png", x: x + noteWidth, y: y, width: noteWidth, height: noteHeight)
+                                addImageView(.Dot, x: x + noteWidth, y: y, width: noteWidth, height: noteHeight)
                             }
                             
                             var drawnFlags = 0
@@ -287,18 +288,18 @@ class ExerciseDisplay: UIView {
                                     // Draws beams that current and previous note share
                                     let numberOfSharedBeams = (previousNote.beams < note.beams) ? previousNote.beams : note.beams
                                     for beamIndex in 0...(numberOfSharedBeams - 1) {
-                                        addImageView("Beam.png", x: previousNote.x + noteWidth - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: deltaX * Double(previousNote.length), height: noteWidth / 4)
+                                        addImageView(.Beam, x: previousNote.x + noteWidth - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: deltaX * Double(previousNote.length), height: noteWidth / 4)
                                         drawnBeams += 1
                                     }
                                     // Draws remaining beams that previous note hasn't drawn yet
                                     if drawnBeams < previousNote.beams && previousNote.drawnBeams < previousNote.beams {
                                         if previousNote.drawnBeams == 0 {
                                             for beamIndex in drawnBeams...(previousNote.beams - 1) {
-                                                addImageView("Beam.png", x: previousNote.x + noteWidth - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: (deltaX * Double(previousNote.length)) / 2, height: noteWidth / 4)
+                                                addImageView(.Beam, x: previousNote.x + noteWidth - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: (deltaX * Double(previousNote.length)) / 2, height: noteWidth / 4)
                                             }
                                         } else {
                                             for beamIndex in previousNote.drawnBeams...(previousNote.beams - 1) {
-                                                addImageView("Beam.png", x: previousNote.x + (noteWidth / 2) - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: noteWidth / 2, height: noteWidth / 4)
+                                                addImageView(.Beam, x: previousNote.x + (noteWidth / 2) - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: noteWidth / 2, height: noteWidth / 4)
                                             }
                                         }
                                     }
@@ -306,14 +307,14 @@ class ExerciseDisplay: UIView {
                                     if noteIndex == beat.0.count - 1 {
                                         if drawnBeams < note.beams {
                                             for beamIndex in drawnBeams...(note.beams - 1) {
-                                                addImageView("Beam.png", x: x + (noteWidth / 2) - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: noteWidth / 2, height: noteWidth / 4)
+                                                addImageView(.Beam, x: x + (noteWidth / 2) - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: noteWidth / 2, height: noteWidth / 4)
                                             }
                                         }
                                     }
                                     
                                 } else {
                                     for i in 0...(note.beams - 1) {
-                                        addImageView("Flag.png", x: x + noteWidth - 1, y: y + (Double(i) * (noteHeight / 6)), width: noteWidth, height: noteWidth)
+                                        addImageView(.Flag, x: x + noteWidth - 1, y: y + (Double(i) * (noteHeight / 6)), width: noteWidth, height: noteWidth)
                                         drawnFlags += 1
                                     }
                                 }
@@ -332,9 +333,9 @@ class ExerciseDisplay: UIView {
                 }
             }
             
-            let barLineName = (lineIndex == (unitsInLines.count - 1)) ? "Double Bar Line.png" : "End Bar Line.png"
+            let barLineID : UIImage.AssetIdentifier = (lineIndex == (unitsInLines.count - 1)) ? .DoubleBarLine : .EndBarLine
             
-            addImageView(barLineName, x: x, y: y, width: unitWidth, height: noteHeight)
+            addImageView(barLineID, x: x, y: y, width: unitWidth, height: noteHeight)
             
             lineIndex += 1
         }
@@ -344,7 +345,7 @@ class ExerciseDisplay: UIView {
     func recordTouch(touchIndex: Int, displacement: Double) {
         let noteFrame = tappedNoteFrames[touchIndex]
         let x = Double(noteFrame.origin.x) + ((noteWidth / 2) * displacement)
-        addImageView("Note Head.png", x: x, y: Double(noteFrame.origin.y), width: Double(noteFrame.width), height: Double(noteFrame.height))
+        addImageView(.NoteHead, x: x, y: Double(noteFrame.origin.y), width: Double(noteFrame.width), height: Double(noteFrame.height))
     }
     
     

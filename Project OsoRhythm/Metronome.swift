@@ -34,7 +34,7 @@ class Metronome: UIView {
             fadeTimer!.invalidate()
         }
         
-        fadeTimer = NSTimer.scheduledTimerWithTimeInterval((accent) ? 0.02 : 0.05, target: self, selector: Selector("fade"), userInfo: nil, repeats: true)
+        fadeTimer = NSTimer.scheduledTimerWithTimeInterval((accent) ? 0.02 : 0.05, target: self, selector: #selector(Metronome.fade), userInfo: nil, repeats: true)
     }
     
     
@@ -79,7 +79,7 @@ class Metronome: UIView {
     func blinkWithExercise(exercise: [[(String, Int)]], unitTimeInterval: Double) {
         unitList = createUnitList(exercise)
         unitList.removeFirst()
-        blinkWithExerciseTimer = NSTimer.scheduledTimerWithTimeInterval(unitTimeInterval, target: self, selector: Selector("unitPassed"), userInfo: nil, repeats: true)
+        blinkWithExerciseTimer = NSTimer.scheduledTimerWithTimeInterval(unitTimeInterval, target: self, selector: #selector(Metronome.unitPassed), userInfo: nil, repeats: true)
     }
     
 }
