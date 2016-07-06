@@ -112,6 +112,8 @@ class ViewController: UIViewController {
         let r = ((441 * screenSize.width * screenSize.width) - (256 * screenSize.width * screenSize.height) + (272 * screenSize.height * screenSize.height)) / (336 * screenSize.width)
         let y = (16 / 21 * Double(screenSize.height))
         tapCircle!.resetFrame(Double((screenSize.width / 2) - r), y: y, radius: Double(r), visibleHeight: Double(screenSize.height) - y)
+        
+        metronome!.frame = CGRect(x: 0.0, y: (2 / 3) * Double(screenSize.height), width: Double(screenSize.width), height: (1 / 2) * Double(screenSize.height))
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

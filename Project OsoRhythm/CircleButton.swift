@@ -46,11 +46,16 @@ class CircleButton: UIView {
     
     func resetFrame(x: Double, y: Double, radius: Double, visibleHeight: Double) {
         
-        let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(2 * radius), CGFloat(2 * radius))
+        self.frame = CGRect(x: x, y: y, width: radius * 2, height: radius * 2)
         
-        self.frame = frame
+        self.text.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: (visibleHeight > radius * 2) ? frame.width : CGFloat(visibleHeight))
+        self.text.font = UIFont.systemFontOfSize(CGFloat(visibleHeight / 3))
         
-        self.text.frame = CGRectMake(0.0, 0.0, frame.width, (visibleHeight > radius * 2) ? frame.width : CGFloat(visibleHeight))
+        self.topCircle.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
+        self.topCircle.layer.cornerRadius = frame.width / 2
+        
+        self.bottomCircle.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
+        self.bottomCircle.layer.cornerRadius = frame.width / 2
         
     }
     
@@ -67,7 +72,7 @@ class CircleButton: UIView {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         tapAreaTouched()
-        self.topCircle.backgroundColor = self.topCircle.backgroundColor?.colorWithAlphaComponent(0.5)
+        self.topCircle.backgroundColor = self.topCircle.backgroundColor?.colorWithAlphaComponent(0.9)
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
