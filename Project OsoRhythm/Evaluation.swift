@@ -64,21 +64,22 @@ internal func tapAreaTouched() {
         let secondarySensitivity = 0.095
         
         var touchWasCorrect = false
-        
-        for timeIndex in 0...(currentAnswerKey.count - 1) {
-            let time = currentAnswerKey[timeIndex]
-            if touchTime > (time - secondarySensitivity) && touchTime < (time + secondarySensitivity) {
-                currentAnswerKey.removeAtIndex(timeIndex)
-                touchWasCorrect = true
-                
-                let displacement = (abs(touchTime - time) < primarySensitivity) ? 0.0 : ((touchTime - time) / secondarySensitivity)
-                
-                exerciseDisplay!.recordTouch(timeIndex + correctTouches, displacement: displacement)
-                correctTouches += 1
-                break
+        if !currentAnswerKey.isEmpty {
+            for timeIndex in 0...(currentAnswerKey.count - 1) {
+                let time = currentAnswerKey[timeIndex]
+                if touchTime > (time - secondarySensitivity) && touchTime < (time + secondarySensitivity) {
+                    currentAnswerKey.removeAtIndex(timeIndex)
+                    touchWasCorrect = true
+                    
+                    let displacement = (abs(touchTime - time) < primarySensitivity) ? 0.0 : ((touchTime - time) / secondarySensitivity)
+                    
+                    exerciseDisplay!.recordTouch(timeIndex + correctTouches, displacement: displacement)
+                    correctTouches += 1
+                    break
+                }
             }
         }
-        
+            
         print((touchWasCorrect) ? "Touch was Correct!" : "Touch was incorrect..")
         
     }

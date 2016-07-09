@@ -9,8 +9,10 @@
 import Foundation
 import UIKit
 
-class Metronome: UIView {
+class Metronome: UIControl {
     
+    
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,6 +74,7 @@ class Metronome: UIView {
             blinkWithExerciseTimer!.invalidate()
             currentAppState = .Results
             correctTouches = 0
+            self.sendActionsForControlEvents(.ValueChanged)
         }
         
     }

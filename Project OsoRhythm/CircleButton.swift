@@ -39,6 +39,7 @@ class CircleButton: UIButton {
         self.text.font = UIFont.systemFontOfSize(CGFloat(visibleHeight / 3))
         self.text.textAlignment = .Center
         self.text.text = ""
+        self.text.numberOfLines = 2
         
         self.type = type
         
@@ -64,9 +65,10 @@ class CircleButton: UIButton {
         self.text = UILabel(frame: CGRectMake(frame.width / 6, 0.0, frame.width * (2 / 3), frame.height))
         self.text.adjustsFontSizeToFitWidth = true
         self.text.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        self.text.font = UIFont.systemFontOfSize(frame.height / 3)
+        self.text.font = UIFont.systemFontOfSize(frame.height / 7)
         self.text.textAlignment = .Center
         self.text.text = ""
+        self.text.numberOfLines = 2
         
         self.type = type
         
@@ -92,9 +94,10 @@ class CircleButton: UIButton {
         self.text = UILabel(frame: CGRectMake(frame.width / 6, 0.0, frame.width * (2 / 3), frame.height))
         self.text.adjustsFontSizeToFitWidth = true
         self.text.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        self.text.font = UIFont.systemFontOfSize(frame.height / 3)
+        self.text.font = UIFont.systemFontOfSize(frame.height / 7)
         self.text.textAlignment = .Center
         self.text.text = text
+        self.text.numberOfLines = 2
         
         self.type = type
         
@@ -139,8 +142,8 @@ class CircleButton: UIButton {
     }
     
     func fade() {
-        self.topCircle.alpha -= 0.03
-        self.bottomCircle.alpha -= 0.03
+        self.topCircle.alpha -= 0.07
+        self.bottomCircle.alpha -= 0.07
         if bottomCircle.alpha <= 0.0 {
             self.removeFromSuperview()
         }
@@ -150,8 +153,6 @@ class CircleButton: UIButton {
         self.userInteractionEnabled = false
         NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fade), userInfo: nil, repeats: true)
     }
-    
-    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
@@ -165,8 +166,9 @@ class CircleButton: UIButton {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         self.topCircle.backgroundColor = accentColor
+        self.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
     }
- 
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

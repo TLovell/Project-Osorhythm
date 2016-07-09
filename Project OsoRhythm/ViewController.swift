@@ -14,13 +14,6 @@ internal var unitTimeInterval : Double?
 internal var exerciseDisplay : ExerciseDisplay?
 
 class ViewController: UIViewController {
-    
-    @IBOutlet weak var Display: UITextView!
-    @IBOutlet weak var Display2: UITextView!
-    @IBOutlet weak var tapOffLabel: UILabel!
-    
-    
-    @IBOutlet weak var generateView: UIButton!
 
     var tapCircle : CircleButton?
     func drawTapCircle() {
@@ -48,6 +41,7 @@ class ViewController: UIViewController {
         let frame = CGRect(x: 0.0, y: (2 / 3) * Double(screenSize.height), width: Double(screenSize.width), height: (1 / 2) * Double(screenSize.height))
         
         metronome = Metronome(frame: frame)
+        metronome?.addTarget(self, action: #selector(ViewController.exerciseEnded), forControlEvents: .ValueChanged)
         view.addSubview(metronome!)
     }
     
@@ -57,6 +51,8 @@ class ViewController: UIViewController {
         case Middle
         case Right
     }
+    var nextExerciseButton : (button: CircleButton, alignment: Alignment, text: String)?
+    var tryAgainButton : (button: CircleButton, alignment: Alignment, text: String)?
     func drawCircleButton(alignment: Alignment, type: CircleButton.ButtonType, text: String) {
         
         let screenSize = UIScreen.mainScreen().bounds
@@ -68,7 +64,7 @@ class ViewController: UIViewController {
         var radius = 0.0
         if orientation.isLandscape {
             y = sh * (17/24)
-            radius = sh / 4
+            radius = sh / 8
             
             switch alignment {
             case .Left:
@@ -95,12 +91,12 @@ class ViewController: UIViewController {
         let newCircleButton = CircleButton(x: x, y: y, radius: radius, type: type, text: text)
         if type == .NextExercise {
             newCircleButton.addTarget(self, action: #selector(ViewController.generateButton), forControlEvents: .TouchUpInside)
+            nextExerciseButton = (newCircleButton, alignment: alignment, text)
         } else if type == .TryAgain {
-            
+            newCircleButton.addTarget(self, action: #selector(ViewController.tryAgain), forControlEvents: .TouchUpInside)
+            tryAgainButton = (newCircleButton, alignment: alignment, text)
         }
         
-        newCircleButton.tag = 1
-       
         view.addSubview(newCircleButton)
     }
     
@@ -170,9 +166,21 @@ class ViewController: UIViewController {
         
         let r = ((441 * screenSize.width * screenSize.width) - (256 * screenSize.width * screenSize.height) + (272 * screenSize.height * screenSize.height)) / (336 * screenSize.width)
         let y = (16 / 21 * Double(screenSize.height))
-        tapCircle!.resetFrame(Double((screenSize.width / 2) - r), y: y, radius: Double(r), visibleHeight: Double(screenSize.height) - y)
-        
+        if tapCircle != nil {
+            tapCircle!.resetFrame(Double((screenSize.width / 2) - r), y: y, radius: Double(r), visibleHeight: Double(screenSize.height) - y)
+        }
         metronome!.frame = CGRect(x: 0.0, y: (2 / 3) * Double(screenSize.height), width: Double(screenSize.width), height: (1 / 2) * Double(screenSize.height))
+        
+        if nextExerciseButton != nil {
+            nextExerciseButton!.button.removeFromSuperview()
+            drawCircleButton(nextExerciseButton!.alignment, type: .NextExercise, text: nextExerciseButton!.text)
+        }
+        if tryAgainButton != nil {
+            tryAgainButton!.button.removeFromSuperview()
+            drawCircleButton(tryAgainButton!.alignment, type: .TryAgain, text: tryAgainButton!.text)
+        }
+        
+        
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -180,11 +188,55 @@ class ViewController: UIViewController {
         NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.deviceRotated), userInfo: nil, repeats: false)
     }
     
+    func exerciseEnded() {
+        tapCircle!.fadeOut()
+        drawCircleButton(.Left, type: .TryAgain, text: "Try Again")
+        drawCircleButton(.Right, type: .NextExercise, text: "Next Exercise")
+    }
+    
+    func tryAgain() {
+        currentAppState = .CountOff
+        if tryAgainButton != nil {
+            tryAgainButton!.button.fadeOut()
+            tryAgainButton = nil
+        }
+        if nextExerciseButton != nil {
+            nextExerciseButton!.button.fadeOut()
+            nextExerciseButton = nil
+        }
+        
+        drawTapCircle()
+        
+        let orientation = UIDevice.currentDevice().orientation
+        
+        exerciseDisplay!.resetView(false)
+        exerciseDisplay!.display(exerciseDisplay!.currentExercise, timeSignature: exerciseDisplay!.timeSignature, orientation: orientation)
+        
+        let answer = answerKey(currentExercise!)
+        unitTimeInterval = answer.unitTimeInterval
+        
+        beatCount = 0
+        
+        tempoTimer.invalidate()
+        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: #selector(ViewController.beatPassed), userInfo: nil, repeats: true)
+    }
+    
     func generateButton(sender: CircleButton!) {
         print("ran generateButton")
         
         
         currentAppState = .CountOff
+        
+        if tryAgainButton != nil {
+            tryAgainButton!.button.fadeOut()
+            tryAgainButton = nil
+        }
+        if nextExerciseButton != nil {
+            nextExerciseButton!.button.fadeOut()
+            nextExerciseButton = nil
+        }
+        
+        drawTapCircle()
         
         if exerciseDisplay != nil {
             exerciseDisplay!.resetView(true)
@@ -215,7 +267,6 @@ class ViewController: UIViewController {
         
         drawExerciseDisplay()
         
-        view.bringSubviewToFront(generateView)
         // Do any additional setup after loading the view, typically from a nib.
     }
 
