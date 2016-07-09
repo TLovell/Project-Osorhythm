@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         let screenSize = UIScreen.mainScreen().bounds
         let r = ((441 * screenSize.width * screenSize.width) - (256 * screenSize.width * screenSize.height) + (272 * screenSize.height * screenSize.height)) / (336 * screenSize.width)
         let y = (16 / 21 * Double(screenSize.height))
-        let circleButton = CircleButton(x: Double((screenSize.width / 2) - r), y: y, radius: Double(r), visibleHeight: Double(screenSize.height) - y)
+        let circleButton = CircleButton(x: Double((screenSize.width / 2) - r), y: y, radius: Double(r), type: .TapCircle, visibleHeight: Double(screenSize.height) - y)
         
         tapCircle = circleButton
         view.addSubview(circleButton)
@@ -51,9 +51,66 @@ class ViewController: UIViewController {
         view.addSubview(metronome!)
     }
     
+    
+    enum Alignment {
+        case Left
+        case Middle
+        case Right
+    }
+    func drawCircleButton(alignment: Alignment, type: CircleButton.ButtonType, text: String) {
+        
+        let screenSize = UIScreen.mainScreen().bounds
+        let sw = Double(screenSize.width)
+        let sh = Double(screenSize.height)
+        let orientation = UIDevice.currentDevice().orientation
+        var x = 0.0
+        var y = 0.0
+        var radius = 0.0
+        if orientation.isLandscape {
+            y = sh * (17/24)
+            radius = sh / 4
+            
+            switch alignment {
+            case .Left:
+                x = sw * (5/21)
+            case .Right:
+                x = sw * (13/21)
+            case .Middle:
+                x = sw * (9/21)
+            }
+        } else {
+            y = sh * (15/21)
+            radius = sw / 6
+            
+            switch alignment {
+            case .Left:
+                x = sw / 12
+            case .Right:
+                x = sw * (7 / 12)
+            case .Middle:
+                x = sw / 3
+            }
+        }
+        
+        let newCircleButton = CircleButton(x: x, y: y, radius: radius, type: type, text: text)
+        if type == .NextExercise {
+            newCircleButton.addTarget(self, action: #selector(ViewController.generateButton), forControlEvents: .TouchUpInside)
+        } else if type == .TryAgain {
+            
+        }
+        
+        newCircleButton.tag = 1
+       
+        view.addSubview(newCircleButton)
+    }
+    
     func initialize() {
         
-        drawTapCircle()
+
+        drawCircleButton(.Middle, type: .NextExercise, text: "Generate")
+        
+        
+        //drawTapCircle()
         
         
         for skillSet in skillSetList {
@@ -63,6 +120,8 @@ class ViewController: UIViewController {
                 skillSet.skillLevel = Double(random(50)) / 10
             }
         }
+        
+        
     }
     
     
@@ -121,7 +180,9 @@ class ViewController: UIViewController {
         NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.deviceRotated), userInfo: nil, repeats: false)
     }
     
-    @IBAction func generateButton(sender: AnyObject) {
+    func generateButton(sender: CircleButton!) {
+        print("ran generateButton")
+        
         
         currentAppState = .CountOff
         
