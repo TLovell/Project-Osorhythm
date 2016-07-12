@@ -143,14 +143,14 @@ class CircleButton: UIButton {
     
     func fade() {
         self.topCircle.alpha -= 0.07
-        self.bottomCircle.alpha -= 0.07
-        if bottomCircle.alpha <= 0.0 {
+        if topCircle.alpha <= 0.0 {
             self.removeFromSuperview()
         }
     }
     
     func fadeOut() {
         self.userInteractionEnabled = false
+        self.bottomCircle.alpha = 0.0
         NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fade), userInfo: nil, repeats: true)
     }
     
