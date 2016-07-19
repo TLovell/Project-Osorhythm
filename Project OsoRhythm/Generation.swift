@@ -88,6 +88,28 @@ func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisio
     return (primaryList, subList, timeList, mixList, subMixture.listAvailableSources(subList, basicMasteredList: timeList), timeMixture.listAvailableSources(timeList, basicMasteredList: subList))
 }
 
+struct ExerciseProperties {
+    var primarySkill: SkillSet
+    var mixtureBool: (Bool, Bool)
+    var primarySubSkill: (SubDivisionSkill, Int, Bool)
+    var secondarySubSkill: (SubDivisionSkill, Int, Bool)
+    var timeSignatureSkill: (TimeSignatureSkill, Int, Bool)
+    var mixedTimeSignatureSkill: (Bool, TimeSignatureSkill, Int, Bool)
+    var mixedTimeSubSkill: (SubDivisionSkill, Int, Bool)
+    
+    
+    init(primarySkill: SkillSet, mixtureBool: (Bool, Bool), primarySubSkill: (SubDivisionSkill, Int, Bool), secondarySubSkill: (SubDivisionSkill, Int, Bool), timeSignatureSkill: (TimeSignatureSkill, Int, Bool), mixedTimeSignatureSkill: (Bool, TimeSignatureSkill, Int, Bool), mixedTimeSubSkill: (SubDivisionSkill, Int, Bool)) {
+        self.primarySkill = primarySkill
+        self.mixtureBool = mixtureBool
+        self.primarySubSkill = primarySubSkill
+        self.secondarySubSkill = secondarySubSkill
+        self.timeSignatureSkill = timeSignatureSkill
+        self.mixedTimeSignatureSkill = mixedTimeSignatureSkill
+        self.mixedTimeSubSkill = mixedTimeSubSkill
+    }
+}
+
+internal var exerciseProperties : ExerciseProperties?
 
 // Selects items from the lists created above that will be the subjects/properties/information needed for exercise generation
 func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool), primarySubSkill: (SubDivisionSkill, Int, Bool), secondarySubSkill: (SubDivisionSkill, Int, Bool), timeSignatureSkill: (TimeSignatureSkill, Int, Bool), mixedTimeSignatureSkill: (Bool, TimeSignatureSkill, Int, Bool), mixedTimeSubSkill: (SubDivisionSkill, Int, Bool)) {
@@ -247,12 +269,16 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     exerciseMixedTimeSubSkill.0 = (getSkillSetFromName(exerciseMixedTimeSignature.1.compatibleSubDivs) as! [SubDivisionSkill]).intersection(lists.subList).randomItem()
     exerciseMixedTimeSubSkill.1 = Int(roundDown(exerciseMixedTimeSubSkill.0.skillLevel))
     
+    exerciseProperties = ExerciseProperties(primarySkill: primarySkill, mixtureBool: mixtureBool, primarySubSkill: exercisePrimarySubSkill, secondarySubSkill: exerciseSecondarySubSkill, timeSignatureSkill: exerciseTimeSignature, mixedTimeSignatureSkill: exerciseMixedTimeSignature, mixedTimeSubSkill: exerciseMixedTimeSubSkill)
+    
     return (primarySkill, mixtureBool, exercisePrimarySubSkill, exerciseSecondarySubSkill, exerciseTimeSignature, exerciseMixedTimeSignature, exerciseMixedTimeSubSkill)
 }
 
 
+
+
 // Takes the properties chosen above and creates an exercise.
-internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature: (String, String)) {
+internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature: (String, String), primaryBeats: [[Bool]], primarySkill: SkillSet) {
     let properties = generationProperties()
     
     var timeSignature : (String, String) = ("", "")
@@ -307,34 +333,57 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
     }
     
     var exerciseBeatSkills : [[(SubDivisionSkill, Int, Bool)]] = []
+    var exerciseBeatIsPrimary : [[Bool]] = []
     
     var measureIndex = 0
     for measure in measureInfo {
         var measureBeatSkills : [(SubDivisionSkill, Int, Bool)] = []
+        var measureBeatIsPrimary : [Bool] = []
         if measure.1 == 1 { // Complex time signatures are formatted so that which beats are duple and which are triple are predetermined.
             let primaryIs3 = properties.primarySubSkill.0.compatibleTimeSigs[0] == "b.3"
             for character in timeSignature.0.characters {
-                if character == "2" { measureBeatSkills.append((primaryIs3) ? properties.secondarySubSkill : properties.primarySubSkill) }
-                if character == "3" { measureBeatSkills.append((primaryIs3) ? properties.primarySubSkill : properties.secondarySubSkill)}
+                if character == "2" {
+                    if primaryIs3 {
+                        measureBeatSkills.append(properties.secondarySubSkill)
+                        measureBeatIsPrimary.append(false)
+                    } else {
+                        measureBeatSkills.append(properties.primarySubSkill)
+                        measureBeatIsPrimary.append(true)
+                    }
+                }
+                
+                if character == "3" {
+                    if primaryIs3 {
+                        measureBeatSkills.append(properties.primarySubSkill)
+                        measureBeatIsPrimary.append(true)
+                    } else {
+                        measureBeatSkills.append(properties.secondarySubSkill)
+                        measureBeatIsPrimary.append(false)
+                    }
+                }
             }
         } else {
             if properties.mixedTimeSignatureSkill.0 && measureIndex % 2 == 1 {
                 for _ in 1...(measure.0) {
                     measureBeatSkills.append(properties.mixedTimeSubSkill)
+                    measureBeatIsPrimary.append(false)
                 }
             } else {
                 let primaryIndex = random(measure.0) + 1
                 for index in 1...(measure.0) {
                     if index == primaryIndex {
                         measureBeatSkills.append(properties.primarySubSkill)
+                        measureBeatIsPrimary.append(true)
                     } else {
                         measureBeatSkills.append(properties.secondarySubSkill)
+                        measureBeatIsPrimary.append(false)
                     }
                 }
             }
         }
         measureIndex += 1
         exerciseBeatSkills.append(measureBeatSkills)
+        exerciseBeatIsPrimary.append(measureBeatIsPrimary)
     }
     
     var generatedExercise : [[(String, Int)]] = []
@@ -352,6 +401,6 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
         measureIndex += 1
     }
     
-    return (generatedExercise, returnedTimeSig)
+    return (generatedExercise, returnedTimeSig, exerciseBeatIsPrimary, properties.primarySkill)
     
 }

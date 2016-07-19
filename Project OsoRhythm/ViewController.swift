@@ -10,11 +10,15 @@ import UIKit
 
 
 internal var currentExercise : [[(String, Int)]]?
+internal var currentPrimaryBeats : [[Bool]]?
+internal var currentPrimarySkill : SkillSet?
 internal var unitTimeInterval : Double?
 internal var exerciseDisplay : ExerciseDisplay?
 
 class ViewController: UIViewController {
 
+    var attemptNumber = 0
+    
     var tapCircle : CircleButton?
     func drawTapCircle() {
         let screenSize = UIScreen.mainScreen().bounds
@@ -43,6 +47,14 @@ class ViewController: UIViewController {
         metronome = Metronome(frame: frame)
         metronome?.addTarget(self, action: #selector(ViewController.exerciseEnded), forControlEvents: .ValueChanged)
         view.addSubview(metronome!)
+    }
+    
+    var starView: StarView?
+    func drawStarView(starCount: Int) {
+        let screenSize = UIScreen.mainScreen().bounds
+        
+        starView = StarView(x: Double(screenSize.width) / 3.0, y: Double(screenSize.height) * (29 / 42), width: Double(screenSize.width) / 3, starCount: starCount)
+        view.addSubview(starView!)
     }
     
     
@@ -109,13 +121,13 @@ class ViewController: UIViewController {
         //drawTapCircle()
         
         
-        for skillSet in skillSetList {
-            if skillSet == quarterNotes || skillSet == dupleSigs || skillSet == eighthNotes || skillSet == tripleSigs || skillSet == tripletNotes {
-                skillSet.skillLevel = (Double(random(40)) + 10) / 10
-            } else {
-                skillSet.skillLevel = Double(random(50)) / 10
-            }
-        }
+//        for skillSet in skillSetList {
+//            if skillSet == quarterNotes || skillSet == dupleSigs || skillSet == eighthNotes || skillSet == tripleSigs || skillSet == tripletNotes {
+//                skillSet.skillLevel = (Double(random(40)) + 10) / 10
+//            } else {
+//                skillSet.skillLevel = Double(random(50)) / 10
+//            }
+//        }
         
         
     }
@@ -188,14 +200,27 @@ class ViewController: UIViewController {
         NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.deviceRotated), userInfo: nil, repeats: false)
     }
     
+    
+    var recordedResults : [(primaryGain: Double, secondaryGain: Double, totalGrade: Int)] = []
+    
     func exerciseEnded() {
+        let exerciseResults = results(attemptNumber)
+        
+        recordedResults.append(exerciseResults)
+
+        drawStarView(exerciseResults.totalGrade)
         tapCircle!.fadeOut()
+        
+        
         drawCircleButton(.Left, type: .TryAgain, text: "Try Again")
         drawCircleButton(.Right, type: .NextExercise, text: "Next Exercise")
     }
     
     func tryAgain() {
         currentAppState = .CountOff
+        
+        attemptNumber += 1
+        
         if tryAgainButton != nil {
             tryAgainButton!.button.fadeOut()
             tryAgainButton = nil
@@ -203,6 +228,10 @@ class ViewController: UIViewController {
         if nextExerciseButton != nil {
             nextExerciseButton!.button.fadeOut()
             nextExerciseButton = nil
+        }
+        if starView != nil {
+            starView!.removeFromSuperview()
+            starView = nil
         }
         
         drawTapCircle()
@@ -212,20 +241,85 @@ class ViewController: UIViewController {
         exerciseDisplay!.resetView(false)
         exerciseDisplay!.display(exerciseDisplay!.currentExercise, timeSignature: exerciseDisplay!.timeSignature, orientation: orientation)
         
-        let answer = answerKey(currentExercise!)
+        let answer = answerKey(currentExercise!, primaryBeats: currentPrimaryBeats!, primarySkill: currentPrimarySkill!)
         unitTimeInterval = answer.unitTimeInterval
         
-        beatCount = 0
+        beatCount = 6
         
         tempoTimer.invalidate()
         tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: #selector(ViewController.beatPassed), userInfo: nil, repeats: true)
     }
     
+    
+    
+    
+    func adjustSkillLevels() {
+        
+        var allPassingIndexes : [Int] = []
+        for i in 0...(recordedResults.count - 1) {
+            if recordedResults[i].totalGrade >= 0 {
+                allPassingIndexes.append(i)
+            }
+        }
+        
+        var bestPerformanceIndex : Int = 0
+        
+        func findBestPerformance(indexList: [Int]) {
+            for i in indexList {
+                if recordedResults[i].primaryGain > recordedResults[bestPerformanceIndex].primaryGain || (recordedResults[i].primaryGain == recordedResults[bestPerformanceIndex].primaryGain && recordedResults[i].secondaryGain > recordedResults[bestPerformanceIndex].secondaryGain) {
+                    bestPerformanceIndex = i
+                }
+            }
+        }
+        
+        if !(allPassingIndexes.isEmpty) {
+            findBestPerformance(allPassingIndexes)
+        } else {
+            var list : [Int] = []
+            list += (0...(recordedResults.count - 1))
+            findBestPerformance(list)
+        }
+        
+        let bestPerformance = recordedResults[bestPerformanceIndex]
+        
+        if exerciseProperties != nil {
+            let primarySkill = exerciseProperties!.primarySkill
+            
+            primarySkill.skillGain(bestPerformance.primaryGain)
+            
+            var secondarySkills = [exerciseProperties!.primarySubSkill.0, exerciseProperties!.secondarySubSkill.0, exerciseProperties!.timeSignatureSkill.0]
+            
+            if exerciseProperties!.mixtureBool.0 { secondarySkills.append(subMixture) }
+            if exerciseProperties!.mixtureBool.1 { secondarySkills.append(timeMixture) }
+            if exerciseProperties!.mixedTimeSignatureSkill.0 {
+                secondarySkills.append(exerciseProperties!.mixedTimeSignatureSkill.1)
+                secondarySkills.append(exerciseProperties!.mixedTimeSubSkill.0)
+            }
+            
+            if secondarySkills.contains(primarySkill as SkillSet) {
+                print("secondary list contains primary")
+                secondarySkills.removeAtIndex(secondarySkills.indexOf(primarySkill as SkillSet)!)
+            }
+            
+            for skill in secondarySkills {
+                skill.skillGain(bestPerformance.secondaryGain)
+            }
+            
+        }
+        
+        for skill in skillSetList {
+            print("\(skill.name): \(skill.skillLevel)")
+        }
+        
+    }
+    
     func generateButton(sender: CircleButton!) {
-        print("ran generateButton")
+        
         
         
         currentAppState = .CountOff
+        
+        attemptNumber = 1
         
         if tryAgainButton != nil {
             tryAgainButton!.button.fadeOut()
@@ -241,15 +335,27 @@ class ViewController: UIViewController {
         if exerciseDisplay != nil {
             exerciseDisplay!.resetView(true)
         }
+        if starView != nil {
+            starView!.removeFromSuperview()
+            starView = nil
+        }
+        
+        if !(recordedResults.isEmpty) {
+            adjustSkillLevels()
+        }
+        recordedResults = []
         
         intensity = (intensity == 0.9) ? 0.0 : intensity + 0.1
         let exercise = generateExercise() // in Generation.swift
         currentExercise = exercise.exercise
+        currentPrimaryBeats = exercise.primaryBeats
+        currentPrimarySkill = exercise.primarySkill
         let heldNotes = notesHeld(currentExercise!) // in Display.swift
         
         exerciseDisplay!.display(displayInformation(heldNotes), timeSignature: exercise.timeSignature, orientation: UIDevice.currentDevice().orientation)
         
-        let answer = answerKey(currentExercise!)
+        
+        let answer = answerKey(currentExercise!, primaryBeats: currentPrimaryBeats!, primarySkill: currentPrimarySkill!)
         unitTimeInterval = answer.unitTimeInterval
         
         

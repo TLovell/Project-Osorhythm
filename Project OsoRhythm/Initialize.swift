@@ -18,7 +18,6 @@ internal func random(int: Int) -> Int {
 
 internal extension Array { // Will crash the app when given an empty array. This occasionally happens when called in Generation.swift. 
     func randomItem() -> Element {
-        print("\(self)[random(\(self.count))]")
         return self[random(self.count)]
     }
 }
@@ -80,6 +79,8 @@ extension UIImage {
         case Tie = "Tie.png"
         case WholeNote = "Whole Note.png"
         case WholeRest = "Whole Rest.png"
+        case Star = "Star.png"
+        case StarFilled = "Star Filled.png"
     }
     
     convenience init!(assetIndentifier: AssetIdentifier) {

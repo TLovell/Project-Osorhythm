@@ -22,6 +22,7 @@
 		E74DCCB61D03A70800204126 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB51D03A70800204126 /* Generation.swift */; };
 		E74DCCB81D04D7F100204126 /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCCB71D04D7F100204126 /* Display.swift */; };
 		E74DCD371D1B29F000204126 /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74DCD361D1B29F000204126 /* Evaluation.swift */; };
+		E77378121D3C878200F280F0 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77378111D3C878200F280F0 /* StarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		E74DCCB51D03A70800204126 /* Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
 		E74DCCB71D04D7F100204126 /* Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
 		E74DCD361D1B29F000204126 /* Evaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
+		E77378111D3C878200F280F0 /* StarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				E74DCC831D03A4B200204126 /* AppDelegate.swift */,
 				E74DCCB31D03A5D100204126 /* Initialize.swift */,
+				E77378111D3C878200F280F0 /* StarView.swift */,
 				E74DCD361D1B29F000204126 /* Evaluation.swift */,
 				E712133F1D2468B500A3C2F2 /* CircleButton.swift */,
 				E71213411D25E54D00A3C2F2 /* ExerciseDisplay.swift */,
@@ -291,6 +294,7 @@
 				E74DCCB21D03A53700204126 /* SkillSet.swift in Sources */,
 				E74DCC841D03A4B200204126 /* AppDelegate.swift in Sources */,
 				E71213421D25E54D00A3C2F2 /* ExerciseDisplay.swift in Sources */,
+				E77378121D3C878200F280F0 /* StarView.swift in Sources */,
 				E74DCCB81D04D7F100204126 /* Display.swift in Sources */,
 				E74DCCB61D03A70800204126 /* Generation.swift in Sources */,
 			);
