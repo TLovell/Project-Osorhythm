@@ -52,8 +52,9 @@ class ViewController: UIViewController {
     var starView: StarView?
     func drawStarView(starCount: Int) {
         let screenSize = UIScreen.mainScreen().bounds
+        let orientation = UIDevice.currentDevice().orientation
         
-        starView = StarView(x: Double(screenSize.width) / 3.0, y: Double(screenSize.height) * (29 / 42), width: Double(screenSize.width) / 3, starCount: starCount)
+        starView = StarView(x: Double(screenSize.width) * ((orientation.isLandscape) ? (3 / 8) : (1 / 3)), y: Double(screenSize.height) * (61 / 90), width: Double(screenSize.width) / ((orientation.isLandscape) ? 4 : 3), starCount: starCount)
         view.addSubview(starView!)
     }
     
@@ -191,6 +192,11 @@ class ViewController: UIViewController {
             tryAgainButton!.button.removeFromSuperview()
             drawCircleButton(tryAgainButton!.alignment, type: .TryAgain, text: tryAgainButton!.text)
         }
+        if starView != nil {
+            starView!.adjustFrame(Double(screenSize.width) * ((orientation.isLandscape) ? (3 / 8) : (1 / 3)), y: Double(screenSize.height) * (61 / 90), width: Double(screenSize.width) / ((orientation.isLandscape) ? 4 : 3))
+            
+            
+        }
         
         
     }
@@ -296,13 +302,10 @@ class ViewController: UIViewController {
                 secondarySkills.append(exerciseProperties!.mixedTimeSubSkill.0)
             }
             
-            if secondarySkills.contains(primarySkill as SkillSet) {
-                print("secondary list contains primary")
-                secondarySkills.removeAtIndex(secondarySkills.indexOf(primarySkill as SkillSet)!)
-            }
-            
             for skill in secondarySkills {
-                skill.skillGain(bestPerformance.secondaryGain)
+                if skill != primarySkill {
+                    skill.skillGain(bestPerformance.secondaryGain)
+                }
             }
             
         }

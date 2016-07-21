@@ -33,6 +33,13 @@ class StarView: UIView {
         }
     }
     
+    func adjustFrame(x: Double, y: Double, width: Double) {
+        self.frame = CGRect(x: x, y: y, width: width, height: width / 5.0)
+        for i in 0...2 {
+            starImages[i].frame = CGRect(x: Double(i) * Double(frame.height) * 2.0, y: 0.0, width: Double(frame.height), height: Double(frame.height))
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

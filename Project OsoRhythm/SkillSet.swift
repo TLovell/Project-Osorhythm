@@ -73,7 +73,7 @@ internal class SubDivisionSkill: SkillSet {
     }
     
     func selectSource(level: Int, andUnder: Bool) -> String? {
-        var sourceIndex: Int = andUnder ? random(level) : level
+        var sourceIndex: Int = andUnder ? random(level) : (level - 1)
         
         while sourceIndex >= self.sources.count {
             sourceIndex -= 1
@@ -125,7 +125,7 @@ internal class MixtureSkill: SkillSet {
     }
     
     func selectSource(level: Int, andUnder: Bool) -> SourceMix? {
-        var sourceIndex: Int = andUnder ? random(level) : level
+        var sourceIndex: Int = andUnder ? random(level) : (level - 1)
         
         while sourceIndex >= self.sources.count {
             sourceIndex -= 1
