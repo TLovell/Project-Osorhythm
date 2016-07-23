@@ -8,15 +8,19 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 class Metronome: UIControl {
     
     
-
+    var tickSound : SystemSoundID = 1103
+    var tockSound : SystemSoundID = 1104
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         self.backgroundColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,6 +34,8 @@ class Metronome: UIControl {
     
     var fadeTimer : NSTimer?
     func blink(accent: Bool) {
+        AudioServicesPlaySystemSound((accent) ? tickSound : tockSound)
+        
         self.alpha = (accent) ? 0.2 : 0.5
         
         if fadeTimer != nil {

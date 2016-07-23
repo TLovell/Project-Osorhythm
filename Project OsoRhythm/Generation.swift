@@ -10,7 +10,7 @@ import Foundation
 
 
 // This function creates several lists of SkillSet instances that can be used for generation. It does so in such a way that should dodge bugs and compatibility errors in later functions.
-func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisionSkill], timeList : [TimeSignatureSkill], mixList : [MixtureSkill], mixSubList: [SourceMix], mixTimeList: [SourceMix]) {
+func createGenerationLists() -> (primaryList : [SkillSet], basicMasteredList : [SkillSet], mixList : [MixtureSkill], mixSubList: [SourceMix], mixTimeList: [SourceMix], mixSubListAsPrimary: [SourceMix], mixTimeListAsPrimary: [SourceMix]) {
     var unlockedList : [SkillSet] = []
     var basicMasteredList : [SkillSet] = []
     var intensityMatchList : [SkillSet] = []
@@ -27,7 +27,7 @@ func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisio
     
     // Basic mastered list is all of the skills that the user has passed the first level of. Since the user is more comfortable with these, these will "fill in the blanks" around the primarySkill explained below.
     for skillSet in unlockedList {
-        if skillSet.skillLevel >= 1 {
+        if skillSet.skillLevel >= 1.0 {
             basicMasteredList.append(skillSet)
         }
     }
@@ -72,20 +72,25 @@ func createGenerationLists() -> (primaryList : [SkillSet], subList : [SubDivisio
     
     
     for skillSet in (basicMasteredList.intersection(skillSetListMix) as! [MixtureSkill]) {
-        if !skillSet.listAvailableSources(basicMasteredList, basicMasteredList: basicMasteredList).isEmpty {
+        if !skillSet.listAvailableSources(basicMasteredList, basicMasteredList: basicMasteredList, asPrimary: false).isEmpty {
             mixList.append(skillSet)
-            if (skillSet.skillLevel * 10) % 10 == intensity * 10 {
-                primaryList.append(skillSet)
-            }
         }
     }
     
+    for skillSet in (intensityMatchList.intersection(skillSetListMix) as! [MixtureSkill]) {
+        if !skillSet.listAvailableSources(basicMasteredList, basicMasteredList: basicMasteredList, asPrimary: true).isEmpty {
+            primaryList.append(skillSet)
+        }
+    }
+    
+    
+    // Complex signatures need to have subMixture available
     if !mixList.contains(subMixture) {
         if let index = primaryList.indexOf(complexSigs) { primaryList.removeAtIndex(index) }
         if let index = timeList.indexOf(complexSigs) { timeList.removeAtIndex(index) }
     }
     
-    return (primaryList, subList, timeList, mixList, subMixture.listAvailableSources(subList, basicMasteredList: timeList), timeMixture.listAvailableSources(timeList, basicMasteredList: subList))
+    return (primaryList, basicMasteredList, mixList, subMixture.listAvailableSources(subList, basicMasteredList: timeList, asPrimary: false), timeMixture.listAvailableSources(timeList, basicMasteredList: subList, asPrimary: false), subMixture.listAvailableSources(basicMasteredList, basicMasteredList: basicMasteredList, asPrimary: true), timeMixture.listAvailableSources(basicMasteredList, basicMasteredList: basicMasteredList, asPrimary: true))
 }
 
 struct ExerciseProperties {
@@ -132,6 +137,31 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     let primarySkill = lists.primaryList.randomItem()
     print("Primary Skill: \(primarySkill.name)")
     
+    
+    var subList : [SubDivisionSkill] = []
+    var timeList : [TimeSignatureSkill] = []
+    
+    var primaryInclusiveMasteredList = lists.basicMasteredList
+    if !(primaryInclusiveMasteredList.contains(primarySkill)) { primaryInclusiveMasteredList.append(primarySkill) }
+    
+    for skillSet in primaryInclusiveMasteredList {
+        switch skillSet {
+        case is SubDivisionSkill :
+            let skillSetSub = (skillSet as! SubDivisionSkill)
+            if !getSkillSetFromName(skillSetSub.compatibleTimeSigs).intersection(primaryInclusiveMasteredList).isEmpty {
+                subList.append(skillSetSub)
+            }
+        case is TimeSignatureSkill:
+            let skillSetTime = (skillSet as! TimeSignatureSkill)
+            if !getSkillSetFromName(skillSetTime.compatibleSubDivs).intersection(primaryInclusiveMasteredList).isEmpty {
+                timeList.append(skillSetTime)
+            }
+        default :
+            break
+        }
+    }
+    
+    
     var mixtureBool = (false, false)
     mixtureBool.0 = (lists.mixList.contains(subMixture)) ? Bool(random(2)) : false
     if primarySkill == complexSigs { mixtureBool.0 = true }
@@ -161,7 +191,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
             exerciseSecondarySubSkill = (exercisePrimarySubSkill.0, Int(roundDown(primarySkill.skillLevel)), true)
         }
         
-        exerciseTimeSignature.0 = ((getSkillSetFromName(exerciseSecondarySubSkill.0.compatibleTimeSigs) as! [TimeSignatureSkill]).intersection(lists.timeList)).randomItem()
+        exerciseTimeSignature.0 = ((getSkillSetFromName(exerciseSecondarySubSkill.0.compatibleTimeSigs) as! [TimeSignatureSkill]).intersection(timeList)).randomItem()
         exerciseTimeSignature.1 = Int(roundDown(exerciseTimeSignature.0.skillLevel))
         
         mixSourceList = []
@@ -187,7 +217,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
         
         exerciseTimeSignature = (primarySkill as! TimeSignatureSkill, Int(roundDown(primarySkill.skillLevel + 1)), false)
         
-        exerciseSecondarySubSkill.0 = (getSkillSetFromName(exerciseTimeSignature.0.compatibleSubDivs) as! [SubDivisionSkill]).intersection(lists.subList).randomItem()
+        exerciseSecondarySubSkill.0 = (getSkillSetFromName(exerciseTimeSignature.0.compatibleSubDivs) as! [SubDivisionSkill]).intersection(subList).randomItem()
         exerciseSecondarySubSkill.1 = Int(roundDown(exerciseSecondarySubSkill.0.skillLevel))
         
         var mixSourceList : [SourceMix] = []
@@ -231,24 +261,24 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
         if (primarySkill as! MixtureSkill).mixType == 0 {
             mixtureBool = (true, false)
             
-            let mixSources = (lists.mixSubList).randomItem().getSubSkills()
+            let mixSources = (lists.mixSubListAsPrimary).randomItem().getSubSkills()
             
             exercisePrimarySubSkill = (mixSources.primary, Int(roundDown(mixSources.primary.skillLevel)), true)
             exerciseSecondarySubSkill = (mixSources.secondary, Int(roundDown(mixSources.secondary.skillLevel)), true)
             
-            exerciseTimeSignature.0 = (getSkillSetFromName(mixSources.secondary.compatibleTimeSigs) as! [TimeSignatureSkill]).intersection(lists.timeList).randomItem()
+            exerciseTimeSignature.0 = (getSkillSetFromName(mixSources.secondary.compatibleTimeSigs) as! [TimeSignatureSkill]).intersection(timeList).randomItem()
             exerciseTimeSignature.1 = Int(roundDown(exerciseTimeSignature.0.skillLevel))
             exerciseMixedTimeSignature.0 = false
             
         } else {
             mixtureBool = (false, true)
             
-            let mixSources = (lists.mixTimeList).randomItem().getTimeSkills()
+            let mixSources = (lists.mixTimeListAsPrimary).randomItem().getTimeSkills()
             
             exerciseTimeSignature = (mixSources.primary, Int(roundDown(mixSources.primary.skillLevel)), true)
             exerciseMixedTimeSignature = (true, mixSources.secondary, Int(roundDown(mixSources.secondary.skillLevel)), true)
             
-            exercisePrimarySubSkill.0 = (getSkillSetFromName(mixSources.primary.compatibleSubDivs) as! [SubDivisionSkill]).intersection(lists.subList).randomItem()
+            exercisePrimarySubSkill.0 = (getSkillSetFromName(mixSources.primary.compatibleSubDivs) as! [SubDivisionSkill]).intersection(subList).randomItem()
             exercisePrimarySubSkill.1 = Int(roundDown(exerciseSecondarySubSkill.0.skillLevel))
             exerciseSecondarySubSkill = exercisePrimarySubSkill
             exerciseSecondarySubSkill.1 -= 1
@@ -266,7 +296,7 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     }
     
     //Mixed time signatures require a third Subdivision skill, so that the mixed measures will always have a compatible skill to work with
-    exerciseMixedTimeSubSkill.0 = (getSkillSetFromName(exerciseMixedTimeSignature.1.compatibleSubDivs) as! [SubDivisionSkill]).intersection(lists.subList).randomItem()
+    exerciseMixedTimeSubSkill.0 = (getSkillSetFromName(exerciseMixedTimeSignature.1.compatibleSubDivs) as! [SubDivisionSkill]).intersection(subList).randomItem()
     exerciseMixedTimeSubSkill.1 = Int(roundDown(exerciseMixedTimeSubSkill.0.skillLevel))
     
     exerciseProperties = ExerciseProperties(primarySkill: primarySkill, mixtureBool: mixtureBool, primarySubSkill: exercisePrimarySubSkill, secondarySubSkill: exerciseSecondarySubSkill, timeSignatureSkill: exerciseTimeSignature, mixedTimeSignatureSkill: exerciseMixedTimeSignature, mixedTimeSubSkill: exerciseMixedTimeSubSkill)

@@ -46,7 +46,7 @@ internal func roundDown(double: Double) -> Double {
     }
 }
 
-internal var intensity = 0.1
+internal var intensity = 0.0
 
 internal enum AppState {
     case ExerciseRunning

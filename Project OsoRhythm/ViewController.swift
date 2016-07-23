@@ -293,7 +293,7 @@ class ViewController: UIViewController {
             
             primarySkill.skillGain(bestPerformance.primaryGain)
             
-            var secondarySkills = [exerciseProperties!.primarySubSkill.0, exerciseProperties!.secondarySubSkill.0, exerciseProperties!.timeSignatureSkill.0]
+            var secondarySkills = [exerciseProperties!.primarySubSkill.0, exerciseProperties!.secondarySubSkill.0, exerciseProperties!.timeSignatureSkill.0, passiveDisplay]
             
             if exerciseProperties!.mixtureBool.0 { secondarySkills.append(subMixture) }
             if exerciseProperties!.mixtureBool.1 { secondarySkills.append(timeMixture) }
