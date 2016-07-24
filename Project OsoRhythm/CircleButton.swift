@@ -14,6 +14,7 @@ class CircleButton: UIButton {
     var bottomCircle : UIView
     var text : UILabel
     var frameTimer = NSTimer()
+    var fadeInTimer = NSTimer()
     
     enum ButtonType {
         case TapCircle
@@ -27,10 +28,12 @@ class CircleButton: UIButton {
         let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(2 * radius), CGFloat(2 * radius))
         self.bottomCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.bottomCircle.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        self.bottomCircle.alpha = 0.0
         self.bottomCircle.layer.cornerRadius = frame.width / 2
         
         self.topCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.topCircle.backgroundColor = accentColor
+        self.topCircle.alpha = 0.0
         self.topCircle.layer.cornerRadius = frame.width / 2
         
         self.text = UILabel(frame: CGRectMake(0.0, 0.0, frame.width, (visibleHeight > radius * 2) ? frame.width : CGFloat(visibleHeight)))
@@ -47,19 +50,21 @@ class CircleButton: UIButton {
         self.addSubview(bottomCircle)
         self.addSubview(topCircle)
         self.addSubview(text)
-        self.userInteractionEnabled = true
-        super.userInteractionEnabled = true
+        self.userInteractionEnabled = false
         if type == .TapCircle { self.multipleTouchEnabled = true }
+        fadeInTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fadeIn), userInfo: nil, repeats: true)
     }
     
     init(x: Double, y: Double, radius: Double, type: ButtonType) {
         let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(2 * radius), CGFloat(2 * radius))
         self.bottomCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.bottomCircle.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        self.bottomCircle.alpha = 0.0
         self.bottomCircle.layer.cornerRadius = frame.width / 2
         
         self.topCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.topCircle.backgroundColor = accentColor
+        self.topCircle.alpha = 0.0
         self.topCircle.layer.cornerRadius = frame.width / 2
         
         self.text = UILabel(frame: CGRectMake(frame.width / 6, 0.0, frame.width * (2 / 3), frame.height))
@@ -76,19 +81,21 @@ class CircleButton: UIButton {
         self.addSubview(bottomCircle)
         self.addSubview(topCircle)
         self.addSubview(text)
-        self.userInteractionEnabled = true
-        super.userInteractionEnabled = true
+        self.userInteractionEnabled = false
         if type == .TapCircle { self.multipleTouchEnabled = true }
+        fadeInTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fadeIn), userInfo: nil, repeats: true)
     }
     
     init(x: Double, y: Double, radius: Double, type: ButtonType, text: String) {
         let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(2 * radius), CGFloat(2 * radius))
         self.bottomCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.bottomCircle.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        self.bottomCircle.alpha = 0.0
         self.bottomCircle.layer.cornerRadius = frame.width / 2
         
         self.topCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.topCircle.backgroundColor = accentColor
+        self.topCircle.alpha = 0.0
         self.topCircle.layer.cornerRadius = frame.width / 2
         
         self.text = UILabel(frame: CGRectMake(frame.width / 6, 0.0, frame.width * (2 / 3), frame.height))
@@ -105,9 +112,9 @@ class CircleButton: UIButton {
         self.addSubview(bottomCircle)
         self.addSubview(topCircle)
         self.addSubview(self.text)
-        self.userInteractionEnabled = true
+        self.userInteractionEnabled = false
         if type == .TapCircle { self.multipleTouchEnabled = true }
-        
+        fadeInTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fadeIn), userInfo: nil, repeats: true)
     }
     
     func framePassed() {
@@ -152,6 +159,17 @@ class CircleButton: UIButton {
         self.userInteractionEnabled = false
         self.bottomCircle.alpha = 0.0
         NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fade), userInfo: nil, repeats: true)
+    }
+    
+    func fadeIn() {
+        self.topCircle.alpha += 0.07
+        self.text.alpha += 0.07
+        if topCircle.alpha >= 1.0 {
+            self.bottomCircle.alpha = 1.0
+            self.text.alpha = 1.0
+            self.userInteractionEnabled = true
+            fadeInTimer.invalidate()
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
