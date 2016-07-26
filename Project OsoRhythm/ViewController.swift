@@ -145,14 +145,17 @@ class ViewController: UIViewController {
             switch countDown {
             case 8, 4:
                 tapCircle!.setLabelText("1")
+                blink = true
             case 6, 3:
                 tapCircle!.setLabelText("2")
             case 2:
                 tapCircle!.setLabelText("Ready")
+                blink = true
             case 1:
                 tapCircle!.setLabelText("Go!")
                 exerciseInitialTime = NSDate().timeIntervalSinceReferenceDate
                 currentAppState = .ExerciseRunning
+                blink = true
             case 0:
                 metronome!.blinkWithExercise(currentExercise!, unitTimeInterval: unitTimeInterval!)
                 tempoTimer.invalidate()
@@ -311,7 +314,7 @@ class ViewController: UIViewController {
         }
         
         for skill in skillSetList {
-            print("\(skill.name): \(skill.skillLevel)")
+            print("\(skill.name): \(skill.skillLevel), \(skill.locked)")
         }
         
     }
@@ -347,6 +350,8 @@ class ViewController: UIViewController {
             adjustSkillLevels()
         }
         recordedResults = []
+        
+        updateLocks()
         
         intensity = (intensity == 0.9) ? 0.0 : intensity + 0.1
         let exercise = generateExercise() // in Generation.swift

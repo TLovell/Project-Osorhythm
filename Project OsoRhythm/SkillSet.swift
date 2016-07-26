@@ -156,6 +156,7 @@ internal let eighthNotes = SubDivisionSkill(name: "Eighth Notes", technicalName:
 
 internal let tripletNotes = SubDivisionSkill(name: "Triplet Notes", technicalName: "a.3", division: 3, beams: 1, sources: [["100", "111", "100", "111", "000"], ["101", "110"], ["011", "001", "010"]], compatibleTimeSigs: ["b.3"], skillLevel: 1.0)
 
+
 internal let sixteenthNotes = SubDivisionSkill(name: "Sixteenth Notes", technicalName: "a.4", division: 4, beams: 2, sources: [["1000", "1111", "1010", "0000"], ["1011", "1110"], ["1101", "1100", "1001", "0010", "0011"], ["0111", "0110", "0101", "0100", "0001"]], compatibleTimeSigs: ["b.2"], skillLevel: 0.0)
 
 internal let quintupletNotes = SubDivisionSkill(name: "Quintuplet Notes", technicalName: "a.5", division: 5, beams: 2, sources: [["10000", "11111", "10000", "11111", "00000"]], compatibleTimeSigs: [], skillLevel: 1.0)
@@ -172,7 +173,19 @@ internal let complexSigs = TimeSignatureSkill(name: "Complex Signatures", techni
 
 
 
-internal let subMixture = MixtureSkill(name: "SubDivision Mixture", technicalName: "c.1", mixType: 0, sources: [[SourceMix(primary: 3, secondary: 2), SourceMix(primary: 3, secondary: 1)], [SourceMix(primary: 2, secondary: 3), SourceMix(primary: 3, secondary: 4)], [SourceMix(primary: 4, secondary: 3)], [SourceMix(primary: 5, secondary: 1)], [SourceMix(primary: 5, secondary: 2), SourceMix(primary: 5, secondary: 3), SourceMix(primary: 5, secondary: 4)]], skillLevel: 0.0)
+internal let subMixture = MixtureSkill(
+    name: "SubDivision Mixture",
+    technicalName: "c.1",
+    mixType: 0,
+    sources: [
+        [SourceMix(primary: 3, secondary: 1)],
+        [SourceMix(primary: 3, secondary: 2)],
+        [SourceMix(primary: 2, secondary: 3), SourceMix(primary: 3, secondary: 4)],
+        [SourceMix(primary: 4, secondary: 3)],
+        [SourceMix(primary: 5, secondary: 1)],
+        [SourceMix(primary: 5, secondary: 2), SourceMix(primary: 5, secondary: 3),SourceMix(primary: 5, secondary: 4)]],
+    skillLevel: 0.0
+)
 
 internal let timeMixture = MixtureSkill(name: "TimeSignature Mixture", technicalName: "c.2", mixType: 1, sources: [[SourceMix(primary: 2, secondary: 2), SourceMix(primary: 3, secondary: 3)], [SourceMix(primary: 2, secondary: 3), SourceMix(primary: 3, secondary: 2)], [SourceMix(primary: 1, secondary: 3), SourceMix(primary: 1, secondary: 2),]], skillLevel: 0.0)
 
@@ -302,3 +315,24 @@ internal extension MixtureSkill {
         return returnedList
     }
 }
+
+internal func updateLocks() {
+    
+    eighthNotes.locked = (quarterNotes.skillLevel < 1.0 && dupleSigs.skillLevel < 1.0)
+    tripletNotes.locked = (eighthNotes.skillLevel < 1.0)
+    sixteenthNotes.locked = (eighthNotes.skillLevel < 1.0)
+    quintupletNotes.locked = (sextupletNotes.skillLevel < 1.0)
+    sextupletNotes.locked = (sixteenthNotes.skillLevel < 1.0 && tripleSigs.skillLevel < 1.0)
+    
+    tripleSigs.locked = (subMixture.skillLevel < 1.0)
+    complexSigs.locked = (tripleSigs.skillLevel < 1.0)
+    
+    subMixture.locked = (eighthNotes.skillLevel < 1.0)
+    timeMixture.locked = (tripleSigs.skillLevel < 1.0)
+    
+}
+
+
+
+
+
