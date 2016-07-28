@@ -121,9 +121,11 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     var lists = createGenerationLists()
     
     while lists.primaryList.isEmpty {
-        intensity += 0.1
-        if intensity >= 1.0 {
-            intensity = 0.0
+        intensity -= 0.1
+        intensity = round(intensity * 10) / 10
+        print(intensity)
+        if intensity < 0.0 {
+            intensity = 0.9
         }
         lists = createGenerationLists()
     }

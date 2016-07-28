@@ -353,7 +353,7 @@ class ViewController: UIViewController {
         
         updateLocks()
         
-        intensity = (intensity == 0.9) ? 0.0 : intensity + 0.1
+        intensity = (intensity == 0.0) ? 0.9 : intensity - 0.1
         let exercise = generateExercise() // in Generation.swift
         currentExercise = exercise.exercise
         currentPrimaryBeats = exercise.primaryBeats
