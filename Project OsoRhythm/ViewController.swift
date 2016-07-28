@@ -314,7 +314,7 @@ class ViewController: UIViewController {
         }
         
         for skill in skillSetList {
-            print("\(skill.name): \(skill.skillLevel), \(skill.locked)")
+            print("\(skill.name): \(skill.skillLevel), \(skill.locked), \(skill.plays)")
         }
         
     }

@@ -25,6 +25,7 @@ internal class SkillSet {
     var skillLevel = 0.0
     var locked = false
     var uses = 1
+    var plays = 0
     
     
     
@@ -72,14 +73,34 @@ internal class SubDivisionSkill: SkillSet {
         
     }
     
-    func selectSource(level: Int, andUnder: Bool) -> String? {
+    func selectSource(level: Int, andUnder: Bool, isPrimary: Bool) -> String? {
         var sourceIndex: Int = andUnder ? random(level) : (level - 1)
         
         while sourceIndex >= self.sources.count {
             sourceIndex -= 1
         }
         
-        return self.sources[sourceIndex].randomItem()
+        var source = self.sources[sourceIndex].randomItem()
+        
+        func countOnes(string: String) -> Int {
+            var returnedInt = 0
+            for character in string.characters {
+                if character == "1" {
+                    returnedInt += 1
+                }
+            }
+            return returnedInt
+        }
+        
+        var numberOfOnes = countOnes(source)
+        
+        while ((numberOfOnes == 0) || (numberOfOnes == 1 && source.characters.first == "1")) && self.technicalName != "a.1" && isPrimary {
+            source = self.sources[sourceIndex].randomItem()
+            numberOfOnes = countOnes(source)
+        }
+        
+        
+        return source
     }
 }
 

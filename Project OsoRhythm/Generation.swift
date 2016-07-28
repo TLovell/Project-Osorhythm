@@ -9,6 +9,23 @@
 import Foundation
 
 
+func pickLeastPlayed(list: [SkillSet]) -> SkillSet {
+    
+    var leastPlayedList = [(plays: list.first!.plays, index: 0)]
+    
+    for i in 0...(list.count - 1) {
+        if list[i].plays < leastPlayedList.first!.plays {
+            leastPlayedList.removeAll()
+            leastPlayedList.append((plays: list[i].plays, i))
+        }
+        if list[i].plays == leastPlayedList.first!.plays {
+            leastPlayedList.append((plays: list[i].plays, i))
+        }
+    }
+    
+    return list[leastPlayedList.randomItem().index]
+}
+
 // This function creates several lists of SkillSet instances that can be used for generation. It does so in such a way that should dodge bugs and compatibility errors in later functions.
 func createGenerationLists() -> (primaryList : [SkillSet], basicMasteredList : [SkillSet], mixList : [MixtureSkill], mixSubList: [SourceMix], mixTimeList: [SourceMix], mixSubListAsPrimary: [SourceMix], mixTimeListAsPrimary: [SourceMix]) {
     var unlockedList : [SkillSet] = []
@@ -136,7 +153,10 @@ func generationProperties() -> (primarySkill: SkillSet, mixtureBool: (Bool, Bool
     var exerciseMixedTimeSignature : (Bool, TimeSignatureSkill, Int, Bool) = (false, dupleSigs, 0, true)
     var exerciseMixedTimeSubSkill : (SubDivisionSkill, Int, Bool) = (quarterNotes, 0, true)
     
-    let primarySkill = lists.primaryList.randomItem()
+    let primarySkill = pickLeastPlayed(lists.primaryList)
+    
+    primarySkill.plays += 1
+    
     print("Primary Skill: \(primarySkill.name)")
     
     
@@ -425,7 +445,7 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
         var generatedMeasure : [(String, Int)] = []
         for beat in measure {
             var generatedBeat : (String, Int) = ("", 0)
-            generatedBeat.0 = beat.0.selectSource(beat.1, andUnder: beat.2)! // the source selected from the skill instance will be one above the current skillLevel of the user if it is the primary skill, and if not it will be selected from the highest level passed "andUnder".
+            generatedBeat.0 = beat.0.selectSource(beat.1, andUnder: beat.2, isPrimary: beat.2)! // the source selected from the skill instance will be one above the current skillLevel of the user if it is the primary skill, and if not it will be selected from the highest level passed "andUnder".
             generatedBeat.1 = (measureInfo[measureIndex].1 == 1) ? (getSkillSetFromName(beat.0.compatibleTimeSigs[0]) as! TimeSignatureSkill).timeType : measureInfo[measureIndex].1
             generatedMeasure.append(generatedBeat)
         }
