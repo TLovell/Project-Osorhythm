@@ -13,8 +13,8 @@ import AVFoundation
 class Metronome: UIControl {
     
     
-    var tickSound : SystemSoundID = 1103
-    var tockSound : SystemSoundID = 1104
+    var tickSound : SystemSoundID = 1057
+    var tockSound : SystemSoundID = 1103
     
     override init(frame: CGRect) {
         
@@ -35,6 +35,7 @@ class Metronome: UIControl {
     var fadeTimer : NSTimer?
     func blink(accent: Bool) {
         AudioServicesPlaySystemSound((accent) ? tickSound : tockSound)
+        
         
         self.alpha = (accent) ? 0.2 : 0.5
         

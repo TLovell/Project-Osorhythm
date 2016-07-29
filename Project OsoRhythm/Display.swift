@@ -186,7 +186,7 @@ func displayInformation(exercise: [[(String, Int)]]) -> [[([(length: Int, beams:
                     if i == (isDotted.count - 1) {
                         tied = note.tied
                     } else {
-                        tied = true
+                        tied = !(note.noteType == 0)
                     }
                     let dotted = isDotted[i]
                     let length = Int(Double(pow(2.0, Double(beat.beams - beams))) * ((isDotted[i]) ? 1.5 : 1))
