@@ -176,7 +176,7 @@ class ExerciseDisplay: UIView {
                 }
                 x += unitWidth
                 
-                if timeSignature.0 != timeSignature.1 { //Time signature development later?
+                if timeSignature.0 != timeSignature.1 {
                     let timeSigIndex = measureIndex % 2
                     var sigNumerator = ""
                     var sigDenominator = ""
@@ -304,7 +304,7 @@ class ExerciseDisplay: UIView {
                                         }
                                     }
                                     
-                                    if noteIndex == beat.0.count - 1 {
+                                    if noteIndex == beat.0.count - 1 || currentExercise[measureIndex][beatIndex].0[noteIndex + 1].noteType == 0 {
                                         if drawnBeams < note.beams {
                                             for beamIndex in drawnBeams...(note.beams - 1) {
                                                 addImageView(.Beam, x: x + (noteWidth / 2) - 1, y: y + (Double(beamIndex) * (noteHeight / 6)), width: noteWidth / 2, height: noteWidth / 4)
