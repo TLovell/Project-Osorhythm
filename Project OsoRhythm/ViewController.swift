@@ -353,6 +353,8 @@ class ViewController: UIViewController {
         
         updateLocks()
         
+        save()
+        
         intensity = (intensity == 0.0) ? 0.9 : intensity - 0.1
         let exercise = generateExercise() // in Generation.swift
         currentExercise = exercise.exercise
@@ -378,6 +380,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         drawMetronome()
         initialize()
+        viewLoadedDataManagement()
         
         drawExerciseDisplay()
         
