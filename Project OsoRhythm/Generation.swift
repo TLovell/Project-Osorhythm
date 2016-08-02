@@ -49,16 +49,16 @@ func createGenerationLists() -> (primaryList : [SkillSet], basicMasteredList : [
         }
     }
     for skillSet in unlockedList{
-        if (skillSet.skillLevel * 10) % 10 == intensity * 10 {
+        if round(skillSet.skillLevel * 10) % 10 == intensity * 10 {
             intensityMatchList.append(skillSet)
         }
     }
-    
+    print(intensityMatchList)
     // Every exercise has a primary skill that it tests the user on. The primary skill does not need to be "basic mastered".
     for skillSet in intensityMatchList {
         switch skillSet {
         case is SubDivisionSkill:
-            if !getSkillSetFromName((skillSet as! SubDivisionSkill).compatibleTimeSigs).intersection(basicMasteredList).isEmpty {
+            if !getSkillSetFromName((skillSet as! SubDivisionSkill).compatibleTimeSigs).intersection(basicMasteredList).isEmpty && (skillSet.skillLevel < Double((skillSet as! SubDivisionSkill).sources.count + 1)) {
                 primaryList.append(skillSet)
             }
         case is TimeSignatureSkill:
@@ -69,6 +69,8 @@ func createGenerationLists() -> (primaryList : [SkillSet], basicMasteredList : [
             break
         }
     }
+    
+    print(primaryList)
     
     for skillSet in basicMasteredList {
         switch skillSet {

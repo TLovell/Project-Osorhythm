@@ -190,7 +190,7 @@ internal let dupleSigs = TimeSignatureSkill(name: "Duple Signatures", technicalN
 
 internal let tripleSigs = TimeSignatureSkill(name: "Triple Signatures", technicalName: "b.3", timeType: 3, sources: [["6/8", "12/8"], ["9/8"]], compatibleSubDivs: ["a.3"], skillLevel: 0.0)
 
-internal let complexSigs = TimeSignatureSkill(name: "Complex Signatures", technicalName: "b.1", timeType: 1, sources: [["2+3", "2+2+3"], ["3+2", "2+3+2", "3+2+2", "2+2+2+3", "3+3+3"], ["3+3+2", "3+2+3", "2+3+3", "2+2+2+2+3"]], compatibleSubDivs: ["a.1", "a.2", "a.3", "a.4", "a.6"], skillLevel: 0.0) // The different format in the sources is necessary for complexSigs but becomes a nuisance in later code.
+internal let complexSigs = TimeSignatureSkill(name: "Complex Signatures", technicalName: "b.1", timeType: 1, sources: [["2+3", "2+2+3"], ["3+2", "2+3+2", "3+2+2", "2+2+2+3"], ["3+3+2", "3+2+3", "2+3+3", "2+2+2+2+3"]], compatibleSubDivs: ["a.1", "a.2", "a.3", "a.4", "a.6"], skillLevel: 0.0) // The different format in the sources is necessary for complexSigs but becomes a nuisance in later code.
 
 
 
