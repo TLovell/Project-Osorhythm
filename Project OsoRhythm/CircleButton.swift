@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import AVFoundation
 
 class CircleButton: UIButton {
     var topCircle : UIView
@@ -20,6 +21,7 @@ class CircleButton: UIButton {
         case TapCircle
         case NextExercise
         case TryAgain
+        case Listen
     }
     
     var type : ButtonType
@@ -167,9 +169,38 @@ class CircleButton: UIButton {
         if topCircle.alpha >= 1.0 {
             self.bottomCircle.alpha = 1.0
             self.text.alpha = 1.0
-            self.userInteractionEnabled = true
+            if topCircle.backgroundColor == accentColor {
+                self.userInteractionEnabled = true
+            }
             fadeInTimer.invalidate()
         }
+    }
+    
+    func disableInteraction() {
+        self.topCircle.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+        userInteractionEnabled = false
+    }
+    
+    func enableInteraction() {
+        self.topCircle.backgroundColor = accentColor
+        userInteractionEnabled = true
+    }
+    
+    
+    func autoTouched() {
+        tapAreaTouched()
+        AudioServicesPlaySystemSound(1104)
+        AudioServicesPlaySystemSound(1057)
+    }
+    
+    var autoTouchTimers : [NSTimer] = []
+    
+    func autoPlay() {
+        
+        for touch in currentAnswerKey {
+            autoTouchTimers.append(NSTimer.scheduledTimerWithTimeInterval(touch.time, target: self, selector: #selector(autoTouched), userInfo: nil, repeats: false))
+        }
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

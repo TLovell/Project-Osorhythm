@@ -15,11 +15,12 @@ internal var currentPrimarySkill : SkillSet?
 internal var unitTimeInterval : Double?
 internal var exerciseDisplay : ExerciseDisplay?
 
+internal var tapCircle : CircleButton?
+
 class ViewController: UIViewController {
 
     var attemptNumber = 0
     
-    var tapCircle : CircleButton?
     func drawTapCircle() {
         let screenSize = UIScreen.mainScreen().bounds
         let r = ((441 * screenSize.width * screenSize.width) - (256 * screenSize.width * screenSize.height) + (272 * screenSize.height * screenSize.height)) / (336 * screenSize.width)
@@ -63,9 +64,11 @@ class ViewController: UIViewController {
         case Left
         case Middle
         case Right
+        case Small
     }
     var nextExerciseButton : (button: CircleButton, alignment: Alignment, text: String)?
     var tryAgainButton : (button: CircleButton, alignment: Alignment, text: String)?
+    var listenButton : (button: CircleButton, alignment: Alignment, text: String)?
     func drawCircleButton(alignment: Alignment, type: CircleButton.ButtonType, text: String) {
         
         let screenSize = UIScreen.mainScreen().bounds
@@ -86,9 +89,10 @@ class ViewController: UIViewController {
                 x = sw * (13/21)
             case .Middle:
                 x = sw * (9/21)
-            }
+            default:
+                break            }
         } else {
-            y = sh * (15/21)
+            y = sh * (5/7)
             radius = sw / 6
             
             switch alignment {
@@ -98,6 +102,22 @@ class ViewController: UIViewController {
                 x = sw * (7 / 12)
             case .Middle:
                 x = sw / 3
+            default:
+                break
+            }
+        }
+        
+        if alignment == .Small {
+            if orientation.isLandscape {
+                y = sh * (19 / 24)
+                radius = sh / 12
+                x = sw * (19 / 42)
+                
+            } else {
+                y = sh * (18/21)
+                radius = sh / 21
+                x = sw * (5 / 12)
+                
             }
         }
         
@@ -108,67 +128,27 @@ class ViewController: UIViewController {
         } else if type == .TryAgain {
             newCircleButton.addTarget(self, action: #selector(ViewController.tryAgain), forControlEvents: .TouchUpInside)
             tryAgainButton = (newCircleButton, alignment: alignment, text)
+        } else if type == .Listen {
+            newCircleButton.addTarget(self, action: #selector(ViewController.listen), forControlEvents: .TouchUpInside)
+            listenButton = (newCircleButton, alignment: alignment, text: text)
         }
+        
         
         view.addSubview(newCircleButton)
     }
     
     func initialize() {
         
+        drawMetronome()
 
         drawCircleButton(.Middle, type: .NextExercise, text: "Generate")
         
+        viewLoadedDataManagement()
         
-        //drawTapCircle()
-        
-        
-//        for skillSet in skillSetList {
-//            if skillSet == quarterNotes || skillSet == dupleSigs || skillSet == eighthNotes || skillSet == tripleSigs || skillSet == tripletNotes {
-//                skillSet.skillLevel = (Double(random(40)) + 10) / 10
-//            } else {
-//                skillSet.skillLevel = Double(random(50)) / 10
-//            }
-//        }
-        
+        drawExerciseDisplay()
         
     }
     
-    
-    var beatCount = 0
-    
-    func beatPassed() {
-        let countDown = 16 - beatCount
-        
-        var blink = false
-        
-        if tapCircle != nil {
-            switch countDown {
-            case 8, 4:
-                tapCircle!.setLabelText("1")
-                blink = true
-            case 6, 3:
-                tapCircle!.setLabelText("2")
-            case 2:
-                tapCircle!.setLabelText("Ready")
-                blink = true
-            case 1:
-                tapCircle!.setLabelText("Go!")
-                exerciseInitialTime = NSDate().timeIntervalSinceReferenceDate
-                currentAppState = .ExerciseRunning
-                blink = true
-            case 0:
-                metronome!.blinkWithExercise(currentExercise!, unitTimeInterval: unitTimeInterval!)
-                tempoTimer.invalidate()
-                blink = true
-            default:
-                break
-            }
-        }
-        
-        
-        metronome!.blink(blink)
-        beatCount += 1
-    }
     
     var tempoTimer = NSTimer()
     
@@ -195,10 +175,12 @@ class ViewController: UIViewController {
             tryAgainButton!.button.removeFromSuperview()
             drawCircleButton(tryAgainButton!.alignment, type: .TryAgain, text: tryAgainButton!.text)
         }
+        if listenButton != nil {
+            listenButton!.button.removeFromSuperview()
+            drawCircleButton(listenButton!.alignment, type: .Listen, text: listenButton!.text)
+        }
         if starView != nil {
             starView!.adjustFrame(Double(screenSize.width) * ((orientation.isLandscape) ? (3 / 8) : (1 / 3)), y: Double(screenSize.height) * (61 / 90), width: Double(screenSize.width) / ((orientation.isLandscape) ? 4 : 3))
-            
-            
         }
         
         
@@ -215,52 +197,30 @@ class ViewController: UIViewController {
     func exerciseEnded() {
         let exerciseResults = results(attemptNumber)
         
-        recordedResults.append(exerciseResults)
-
-        drawStarView(exerciseResults.totalGrade)
+        if tapCircle!.topCircle.backgroundColor == accentColor {
+            recordedResults.append(exerciseResults)
+            drawStarView(exerciseResults.totalGrade)
+        }
+        
         tapCircle!.fadeOut()
         
+        var userPassedExercise = false
+        for result in recordedResults {
+            if result.totalGrade != 0 { userPassedExercise = true }
+        }
+        
+        var userPerfectedExercise = false
+        for result in recordedResults {
+            if result.totalGrade == 3 { userPerfectedExercise = true }
+        }
         
         drawCircleButton(.Left, type: .TryAgain, text: "Try Again")
-        drawCircleButton(.Right, type: .NextExercise, text: "Next Exercise")
+        drawCircleButton(.Right, type: .NextExercise, text: (userPassedExercise ? "Next Exercise" : "Skip Exercise"))
+        if attemptNumber >= 3 || userPerfectedExercise {
+            drawCircleButton(.Small, type: .Listen, text: "Listen")
+        }
+        
     }
-    
-    func tryAgain() {
-        currentAppState = .CountOff
-        
-        attemptNumber += 1
-        
-        if tryAgainButton != nil {
-            tryAgainButton!.button.fadeOut()
-            tryAgainButton = nil
-        }
-        if nextExerciseButton != nil {
-            nextExerciseButton!.button.fadeOut()
-            nextExerciseButton = nil
-        }
-        if starView != nil {
-            starView!.removeFromSuperview()
-            starView = nil
-        }
-        
-        drawTapCircle()
-        
-        let orientation = UIDevice.currentDevice().orientation
-        
-        exerciseDisplay!.resetView(false)
-        exerciseDisplay!.display(exerciseDisplay!.currentExercise, timeSignature: exerciseDisplay!.timeSignature, orientation: orientation)
-        
-        let answer = answerKey(currentExercise!, primaryBeats: currentPrimaryBeats!, primarySkill: currentPrimarySkill!)
-        unitTimeInterval = answer.unitTimeInterval
-        
-        beatCount = 6
-        
-        tempoTimer.invalidate()
-        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: #selector(ViewController.beatPassed), userInfo: nil, repeats: true)
-    }
-    
-    
-    
     
     func adjustSkillLevels() {
         
@@ -319,6 +279,82 @@ class ViewController: UIViewController {
         
     }
     
+    func listen() {
+        currentAppState = .CountOff
+        
+        attemptNumber += 1
+        
+        if tryAgainButton != nil {
+            tryAgainButton!.button.fadeOut()
+            tryAgainButton = nil
+        }
+        if nextExerciseButton != nil {
+            nextExerciseButton!.button.fadeOut()
+            nextExerciseButton = nil
+        }
+        if listenButton != nil {
+            listenButton!.button.fadeOut()
+            listenButton = nil
+        }
+        if starView != nil {
+            starView!.removeFromSuperview()
+            starView = nil
+        }
+        
+        
+        drawTapCircle()
+        tapCircle!.disableInteraction()
+        
+        let orientation = UIDevice.currentDevice().orientation
+        
+        exerciseDisplay!.resetView(false)
+        exerciseDisplay!.display(exerciseDisplay!.currentExercise, timeSignature: exerciseDisplay!.timeSignature, orientation: orientation)
+        
+        let answer = answerKey(currentExercise!, primaryBeats: currentPrimaryBeats!, primarySkill: currentPrimarySkill!)
+        unitTimeInterval = answer.unitTimeInterval
+        
+        
+        metronome!.blinkWithExercise(currentExercise!, unitTimeInterval: unitTimeInterval!, firstAttempt: false)
+
+    }
+    
+    func tryAgain() {
+        currentAppState = .CountOff
+        
+        attemptNumber += 1
+        
+        if tryAgainButton != nil {
+            tryAgainButton!.button.fadeOut()
+            tryAgainButton = nil
+        }
+        if nextExerciseButton != nil {
+            nextExerciseButton!.button.fadeOut()
+            nextExerciseButton = nil
+        }
+        if listenButton != nil {
+            listenButton!.button.fadeOut()
+            listenButton = nil
+        }
+        if starView != nil {
+            starView!.removeFromSuperview()
+            starView = nil
+        }
+        
+        
+        drawTapCircle()
+        
+        let orientation = UIDevice.currentDevice().orientation
+        
+        exerciseDisplay!.resetView(false)
+        exerciseDisplay!.display(exerciseDisplay!.currentExercise, timeSignature: exerciseDisplay!.timeSignature, orientation: orientation)
+        
+        let answer = answerKey(currentExercise!, primaryBeats: currentPrimaryBeats!, primarySkill: currentPrimarySkill!)
+        unitTimeInterval = answer.unitTimeInterval
+        
+        
+        metronome!.blinkWithExercise(currentExercise!, unitTimeInterval: unitTimeInterval!, firstAttempt: false)
+    }
+    
     func generateButton(sender: CircleButton!) {
         
         
@@ -334,6 +370,10 @@ class ViewController: UIViewController {
         if nextExerciseButton != nil {
             nextExerciseButton!.button.fadeOut()
             nextExerciseButton = nil
+        }
+        if listenButton != nil {
+            listenButton!.button.fadeOut()
+            listenButton = nil
         }
         
         drawTapCircle()
@@ -369,20 +409,13 @@ class ViewController: UIViewController {
         unitTimeInterval = answer.unitTimeInterval
         
         
-        beatCount = 0
-        
-        tempoTimer.invalidate()
-        tempoTimer = NSTimer.scheduledTimerWithTimeInterval(answer.initialTempo, target: self, selector: #selector(ViewController.beatPassed), userInfo: nil, repeats: true)
+        metronome!.blinkWithExercise(currentExercise!, unitTimeInterval: unitTimeInterval!, firstAttempt: true)
     
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawMetronome()
         initialize()
-        viewLoadedDataManagement()
-        
-        drawExerciseDisplay()
         
         // Do any additional setup after loading the view, typically from a nib.
     }

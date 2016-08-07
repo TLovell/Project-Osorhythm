@@ -67,7 +67,7 @@ internal func answerKey(exercise: [[(String, Int)]], primaryBeats: [[Bool]], pri
     
     var answerKey : [(time: Double, beatDelegation: BeatDelegation)] = []
     
-    let initialTempo = unitInterval * Double(exercise[0][0].1)
+    let initialTempo = unitInterval * Double(exercise[0].last!.1)
     
     var t = initialTempo
     
@@ -111,8 +111,7 @@ internal var correctTouches = 0
 internal func tapAreaTouched() {
     if currentAppState == .ExerciseRunning {
         let touchTime = NSDate().timeIntervalSinceReferenceDate - exerciseInitialTime
-        
-        
+                
         let primarySensitivity = 0.04
         let secondarySensitivity = 0.095
         

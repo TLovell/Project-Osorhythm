@@ -132,7 +132,7 @@ class ExerciseDisplay: UIView {
             addedFlags.append(imageView)
         } else if assetIndentifier == .NoteHead {
             imageView.image = imageView.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-            imageView.tintColor = accentColor
+            imageView.tintColor = tapCircle!.topCircle.backgroundColor?.colorWithAlphaComponent(1.0)
         }
         self.addSubview(imageView)
         addedImages.append(imageView)
