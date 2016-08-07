@@ -140,6 +140,8 @@ class ViewController: UIViewController {
     func initialize() {
         
         drawMetronome()
+        
+        self.view.multipleTouchEnabled = true
 
         drawCircleButton(.Middle, type: .NextExercise, text: "Generate")
         

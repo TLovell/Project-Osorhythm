@@ -53,7 +53,7 @@ class CircleButton: UIButton {
         self.addSubview(topCircle)
         self.addSubview(text)
         self.userInteractionEnabled = false
-        if type == .TapCircle { self.multipleTouchEnabled = true }
+        self.multipleTouchEnabled = true
         fadeInTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fadeIn), userInfo: nil, repeats: true)
     }
     
@@ -84,7 +84,7 @@ class CircleButton: UIButton {
         self.addSubview(topCircle)
         self.addSubview(text)
         self.userInteractionEnabled = false
-        if type == .TapCircle { self.multipleTouchEnabled = true }
+        self.multipleTouchEnabled = true
         fadeInTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fadeIn), userInfo: nil, repeats: true)
     }
     
@@ -115,7 +115,7 @@ class CircleButton: UIButton {
         self.addSubview(topCircle)
         self.addSubview(self.text)
         self.userInteractionEnabled = false
-        if type == .TapCircle { self.multipleTouchEnabled = true }
+        self.multipleTouchEnabled = true
         fadeInTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(CircleButton.fadeIn), userInfo: nil, repeats: true)
     }
     
@@ -171,6 +171,7 @@ class CircleButton: UIButton {
             self.text.alpha = 1.0
             if topCircle.backgroundColor == accentColor {
                 self.userInteractionEnabled = true
+                self.multipleTouchEnabled = true
             }
             fadeInTimer.invalidate()
         }
@@ -204,18 +205,22 @@ class CircleButton: UIButton {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        
         self.topCircle.backgroundColor = self.topCircle.backgroundColor?.colorWithAlphaComponent(0.9)
+        print(touches.count)
+        print(multipleTouchEnabled)
+        
         if type == .TapCircle {
             tapAreaTouched()
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
-        self.topCircle.backgroundColor = accentColor
-        self.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+        print(touches.count)
+        print("self: \(multipleTouchEnabled), super; \(super.multipleTouchEnabled)")
+        if touches.count == 1 {
+            self.topCircle.backgroundColor = accentColor
+            self.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
