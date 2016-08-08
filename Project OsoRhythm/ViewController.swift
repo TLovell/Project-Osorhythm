@@ -199,7 +199,7 @@ class ViewController: UIViewController {
     func exerciseEnded() {
         let exerciseResults = results(attemptNumber)
         
-        if tapCircle!.topCircle.backgroundColor == accentColor {
+        if tapCircle!.topCircle.backgroundColor != UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0) {
             recordedResults.append(exerciseResults)
             drawStarView(exerciseResults.totalGrade)
         }

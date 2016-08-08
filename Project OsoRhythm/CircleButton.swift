@@ -32,11 +32,13 @@ class CircleButton: UIButton {
         self.bottomCircle.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         self.bottomCircle.alpha = 0.0
         self.bottomCircle.layer.cornerRadius = frame.width / 2
+        self.bottomCircle.userInteractionEnabled = false
         
         self.topCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.topCircle.backgroundColor = accentColor
         self.topCircle.alpha = 0.0
         self.topCircle.layer.cornerRadius = frame.width / 2
+        self.topCircle.userInteractionEnabled = false
         
         self.text = UILabel(frame: CGRectMake(0.0, 0.0, frame.width, (visibleHeight > radius * 2) ? frame.width : CGFloat(visibleHeight)))
         self.text.adjustsFontSizeToFitWidth = true
@@ -45,6 +47,7 @@ class CircleButton: UIButton {
         self.text.textAlignment = .Center
         self.text.text = ""
         self.text.numberOfLines = 2
+        self.text.userInteractionEnabled = false
         
         self.type = type
         
@@ -63,11 +66,13 @@ class CircleButton: UIButton {
         self.bottomCircle.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         self.bottomCircle.alpha = 0.0
         self.bottomCircle.layer.cornerRadius = frame.width / 2
+        self.bottomCircle.userInteractionEnabled = false
         
         self.topCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.topCircle.backgroundColor = accentColor
         self.topCircle.alpha = 0.0
         self.topCircle.layer.cornerRadius = frame.width / 2
+        self.topCircle.userInteractionEnabled = false
         
         self.text = UILabel(frame: CGRectMake(frame.width / 6, 0.0, frame.width * (2 / 3), frame.height))
         self.text.adjustsFontSizeToFitWidth = true
@@ -76,6 +81,7 @@ class CircleButton: UIButton {
         self.text.textAlignment = .Center
         self.text.text = ""
         self.text.numberOfLines = 2
+        self.text.userInteractionEnabled = false
         
         self.type = type
         
@@ -94,11 +100,13 @@ class CircleButton: UIButton {
         self.bottomCircle.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         self.bottomCircle.alpha = 0.0
         self.bottomCircle.layer.cornerRadius = frame.width / 2
+        self.bottomCircle.userInteractionEnabled = false
         
         self.topCircle = UIView(frame: CGRectMake(0.0, 0.0, CGFloat(2 * radius), CGFloat(2 * radius)))
         self.topCircle.backgroundColor = accentColor
         self.topCircle.alpha = 0.0
         self.topCircle.layer.cornerRadius = frame.width / 2
+        self.topCircle.userInteractionEnabled = false
         
         self.text = UILabel(frame: CGRectMake(frame.width / 6, 0.0, frame.width * (2 / 3), frame.height))
         self.text.adjustsFontSizeToFitWidth = true
@@ -107,6 +115,7 @@ class CircleButton: UIButton {
         self.text.textAlignment = .Center
         self.text.text = text
         self.text.numberOfLines = 2
+        self.text.userInteractionEnabled = false
         
         self.type = type
         
@@ -192,6 +201,12 @@ class CircleButton: UIButton {
         tapAreaTouched()
         AudioServicesPlaySystemSound(1104)
         AudioServicesPlaySystemSound(1057)
+        topCircle.backgroundColor = topCircle.backgroundColor!.colorWithAlphaComponent(0.9)
+        NSTimer.scheduledTimerWithTimeInterval(0.07, target: self, selector: #selector(autoTouchRelease), userInfo: nil, repeats: false)
+    }
+    
+    func autoTouchRelease() {
+        topCircle.backgroundColor = topCircle.backgroundColor!.colorWithAlphaComponent(1.0)
     }
     
     var autoTouchTimers : [NSTimer] = []
@@ -204,20 +219,19 @@ class CircleButton: UIButton {
         
     }
     
+    var currentNumberOfTouches = 0
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.topCircle.backgroundColor = self.topCircle.backgroundColor?.colorWithAlphaComponent(0.9)
-        print(touches.count)
-        print(multipleTouchEnabled)
-        
+        self.topCircle.backgroundColor = self.topCircle.backgroundColor?.colorWithAlphaComponent(0.8)
+        currentNumberOfTouches += 1
         if type == .TapCircle {
             tapAreaTouched()
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print(touches.count)
-        print("self: \(multipleTouchEnabled), super; \(super.multipleTouchEnabled)")
-        if touches.count == 1 {
+        currentNumberOfTouches -= 1
+        if currentNumberOfTouches <= 0 {
             self.topCircle.backgroundColor = accentColor
             self.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
         }
