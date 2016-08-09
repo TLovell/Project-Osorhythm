@@ -445,11 +445,14 @@ internal func generateExercise() -> (exercise: [[(String, Int)]], timeSignature:
     
     for measure in exerciseBeatSkills {
         var generatedMeasure : [(String, Int)] = []
+        var beatIndex = 0
         for beat in measure {
             var generatedBeat : (String, Int) = ("", 0)
-            generatedBeat.0 = beat.0.selectSource(beat.1, andUnder: beat.2, isPrimary: beat.2)! // the source selected from the skill instance will be one above the current skillLevel of the user if it is the primary skill, and if not it will be selected from the highest level passed "andUnder".
+            generatedBeat.0 = beat.0.selectSource(beat.1, andUnder: beat.2, isPrimary: exerciseBeatIsPrimary[measureIndex][beatIndex])! // the source selected from the skill instance will be one above the current skillLevel of the user if it is the primary skill, and if not it will be selected from the highest level passed "andUnder".
             generatedBeat.1 = (measureInfo[measureIndex].1 == 1) ? (getSkillSetFromName(beat.0.compatibleTimeSigs[0]) as! TimeSignatureSkill).timeType : measureInfo[measureIndex].1
             generatedMeasure.append(generatedBeat)
+            
+            beatIndex += 1
         }
         generatedExercise.append(generatedMeasure)
         measureIndex += 1

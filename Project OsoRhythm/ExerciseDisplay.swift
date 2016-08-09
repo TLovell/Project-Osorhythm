@@ -344,7 +344,7 @@ class ExerciseDisplay: UIView {
     
     func recordTouch(touchIndex: Int, displacement: Double) {
         let noteFrame = tappedNoteFrames[touchIndex]
-        let x = Double(noteFrame.origin.x) + ((noteWidth / 2) * displacement)
+        let x = Double(noteFrame.origin.x) + ((noteWidth / 3) * displacement)
         addImageView(.NoteHead, x: x, y: Double(noteFrame.origin.y), width: Double(noteFrame.width), height: Double(noteFrame.height))
     }
     

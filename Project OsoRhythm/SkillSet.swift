@@ -182,7 +182,7 @@ internal let sixteenthNotes = SubDivisionSkill(name: "Sixteenth Notes", technica
 
 internal let quintupletNotes = SubDivisionSkill(name: "Quintuplet Notes", technicalName: "a.5", division: 5, beams: 2, sources: [["10000", "11111", "10000", "11111", "00000"]], compatibleTimeSigs: [], skillLevel: 1.0)
 
-internal let sextupletNotes = SubDivisionSkill(name: "Sextuplet Notes", technicalName: "a.6", division: 6, beams: 2, sources: [["111111", "101010", "111111", "101010", "000000"], ["100100", "101011", "101110", "101111", "111110", "111011"], ["100001", "100110", "111000", "100011"], ["110000", "101100", "100010", "101000"], ["011000"]], compatibleTimeSigs: ["b.3"], skillLevel: 0.0)
+internal let sextupletNotes = SubDivisionSkill(name: "Sextuplet Notes", technicalName: "a.6", division: 6, beams: 2, sources: [["111111", "101010", "000000", "100000"], ["100100", "101011", "101110", "101111", "111110", "111011"], ["100001", "100110", "111000", "100011"], ["110000", "101100", "100010", "101000"], ["011000"]], compatibleTimeSigs: ["b.3"], skillLevel: 0.0)
 
 
 
